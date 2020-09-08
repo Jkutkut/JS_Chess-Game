@@ -1,4 +1,4 @@
-# Js-Chess
+# JS-Chess
 Juego del Ajedrez hecho en JavaScript, usando P5 y Jquerry. 
 
 ## Controles:
