@@ -13,16 +13,9 @@ var asking = false;//to control if making a question or not
 var value = "";//to store answer
 
 var btns = [];
+var debugM = false;
 
-$(function() {//jquerry setup
-    $( "#dialog" ).dialog({
-        draggable: true,
-        autoOpen : false,
-        show : "blind",//animation
-        hide: { effect: "drop", duration: 1000 },//animation
-        buttons: []
-    });
-});
+
 
 function ask(q, ...r){
     asking = true;//to lock the drawing function
@@ -142,6 +135,16 @@ function setup() {
         team[1].push(grid[i][6].piece);
         team[1].push(grid[i][7].piece);
     }
+
+    $(function() {//jquerry setup
+        $( "#dialog" ).dialog({
+            draggable: true,
+            autoOpen : false,
+            show : "blind",//animation
+            hide: { effect: "drop", duration: 1000 },//animation
+            buttons: []
+        });
+    });
 }
 
 function draw() {
@@ -160,7 +163,9 @@ function draw() {
         mX = (mouseX < width) ? Math.floor(mouseX / w) : -1;
         mY = (mouseY < height) ? Math.floor(mouseY / h) : -1;
         fill(255);
-        text(("("+mX+", "+mY+")"), 200, 200);
+        if(debugM){
+            text(("("+mX+", "+mY+")"), 200, 200);
+        }
         if(mX > -1 && mY > -1){
             if(!locked){//if selecting piece
                 if(grid[mX][mY].piece != undefined && turn == grid[mX][mY].piece.team){
@@ -171,13 +176,18 @@ function draw() {
                 if(grid[mX][mY].c == c[2] || grid[mX][mY].c == c[3]){
                     grid[mX][mY].show(c[4]);
                 }
-                text(grid[mX][mY].c + "", 200, 250);
+                if(debugM){
+                    text(grid[mX][mY].c + "", 200, 250);
+                }
             }
         }
     }
 }
 
 function mouseClicked(){
+    if(mX == -1 || mY == -1){ //if not valid position selected
+        return
+    }
     if(grid[mX][mY].c != c[4]){//if not searching final spot (if aiming piece to move)
         if(grid[mX][mY].piece != undefined && grid[mX][mY].piece.team == turn && debuggedMoves(grid[mX][mY]) != []){
             //if not aiming empty spot, piece from correct team and possible moves here != null,
