@@ -26,6 +26,7 @@ class ChessBoard {
         }
         this._teamPieces = [new Set(), new Set()];
 
+        
         let order = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
         // for(let i = 0; i < 8; i++){
         //     grid[i][0].setPiece(new piece(order[i], 1));
@@ -73,5 +74,22 @@ class ChessBoard {
 
     get grid() {
         return this._grid;
+    }
+
+
+    // TOOLS
+
+    /**
+     * Returns the correct properties of the cell at the selected index
+     * @param {int} r row position
+     * @param {int} c col position
+     * @returns The correct object to send to the ChessPiece classes
+     */
+    createPropertiesPiece(r, c) {
+        return {
+            r: r,
+            c: c,
+            size: this.cellSize
+        }
     }
 }
