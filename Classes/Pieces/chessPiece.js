@@ -8,12 +8,12 @@ class ChessPiece {
         "pawn"
     ];
     static TEAM = {
-        WHITE: 0,
-        BLACK: 1
+        BLACK: 0,
+        WHITE: 1
     };
     static TEAMIMGPREFIX = [
-        "W",
-        "B"
+        "B",
+        "W"
     ];
 
     static ERRORS = {
@@ -23,7 +23,8 @@ class ChessPiece {
     };
 
     constructor(team, properties=null) {
-        let piece = this.constructor.name.toLowerCase();
+        let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
+        
         // Check correct input
         if (!ChessPiece.PIECENAME.includes(piece)) {
             throw ChessPiece.ERRORS.INVALIDCLASS;
@@ -37,33 +38,27 @@ class ChessPiece {
         
         this._properties = undefined;
         if (properties == null) {
-            properties = {
-                r: 0,
-                h: 0,
-                size: 50
-            };
+            properties = {r: 0, h: 0, size: 50};
         }
 
         this._img = imgs[this.piece + this.teamName];
-        this._imgSize = undefined;
+        this._imgProperties = undefined;
 
         this.setNewProperties(properties);
-        // console.log(this.imgSize);
     }
 
     /**
      * Represents on the p5.Canvas the piece
      */
     show = function() {
-        // image(imgs.pawnW, sX, sY, w, h);
-        image(this.img, ...this.imgSize);
+        image(this.img, ...this.imgProperties);
     }
 
     setNewProperties(p=null) {
         if (p != null) {
             this._properties = p
         }
-        this._imgSize = [
+        this._imgProperties = [
             this.properties.r * this.properties.size,
             this.properties.c * this.properties.size,
             this.properties.size,
@@ -89,8 +84,8 @@ class ChessPiece {
         return this._img;
     }
 
-    get imgSize() {
-        return this._imgSize;
+    get imgProperties() {
+        return this._imgProperties;
     }
     
     get properties() {

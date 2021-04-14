@@ -44,7 +44,7 @@ class ChessBoard {
             for (let j = 0; j < 2; j++) {
                 let correctIndex = j * 5 + 1;
                 let piece = new ChessBoard.PIECES["pawn"](j, this.createPropertiesPiece(i, correctIndex));
-                this._grid[i][correctIndex] = piece;
+                this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
             }
             // grid[i][6].setPiece(new piece("pawn", -1));
