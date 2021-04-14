@@ -15,7 +15,7 @@ class ChessBoard {
         for(let i = 0; i < 8; i++){
             this._grid[i] = new Array(8);
         }
-
+        
 
     }
 
