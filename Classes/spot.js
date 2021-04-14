@@ -16,7 +16,7 @@ class spot {
         noStroke();
         fill(color);
         rect(this.x * w, this.y * h, w, h);
-        if (this.piece != undefined) { //if it has a pice, show it
+        if (this.piece != undefined) { //if it has a piece, show it
             this.piece.show();
         }
     }

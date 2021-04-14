@@ -219,7 +219,7 @@ function mouseClicked(){
 function preload(){
     let types = ["W", "B"];
     let url = "https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game";
-    // let imgDirectory = "@master/img/";
+    // let imgDirectory = "@master/res/img/";
     let imgDirectory = "@442c044119dd754b10617a7efd4816e5da3cd58e/res/img/";
     let piezas = [
         "bishop",
