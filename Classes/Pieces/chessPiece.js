@@ -32,21 +32,45 @@ class ChessPiece {
 
         this._piece = piece;
         this._team = team;
-        this._pos = createVector(0, 0);
+        // this._pos = createVector(0, 0);
+        this._pos = {
+            row: {
+                start: 0,
+                w: 0
+            },
+            height: {
+                start: 0,
+                h: 0
+            }
+        };
 
-        this._img = imgs[ChessPiece.TEAMIMGPREFIX[this.team] + this.piece];
+        this._img = imgs[this.teamName + this.piece];
+        this.imgSize = [0, 0, 0, 0];
     }
 
     /**
      * Represents on the p5.Canvas the piece
      */
     show = function() {
-        let sX = this.x * w;
-        let sY = this.y * h;
-        image(imgs.pawnW, sX, sY, w, h);
+        // image(imgs.pawnW, sX, sY, w, h);
+        image(this.img, ...this.imgSize);
     }
 
     // SETTERS AND GETTERS
     
-    get 
+    get piece() {
+        return this._piece;
+    }
+
+    get team() {
+        return this._team;
+    }
+
+    get teamName() {
+        return ChessPiece.TEAMIMGPREFIX[this.team];
+    }
+
+    get img() {
+        return this._img;
+    }
 }
