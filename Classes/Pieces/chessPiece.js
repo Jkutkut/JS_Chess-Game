@@ -4,11 +4,11 @@
 class ChessPiece {
     static PIECENAME = [
         "bishop",
-        "rook",
-        "knight",
-        "queen",
         "king",
-        "pawn"
+        "knight",
+        "pawn",
+        "queen",
+        "rook"
     ];
     static TEAM = {
         BLACK: 0,
