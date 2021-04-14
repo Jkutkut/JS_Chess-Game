@@ -2,7 +2,7 @@
 var grid = [];
 var w, h;
 var c = [];//colors
-var imgs;
+var imgs = {};
 var locked = false;//to control focus on piece
 var mX, mY;//current coord of mouse
 var mXL, mXY;//coord of locked piece
@@ -217,19 +217,27 @@ function mouseClicked(){
 }
 
 function preload(){
-    imgs = {
-        bishopW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-bishop.png"),
-        rookW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-rook.png"),
-        knightW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-knight.png"),
-        queenW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-queen.png"),
-        kingW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-king.png"),
-        pawnW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-pawn.png"),
+    let types = ["W", "B"];
+    let url = "https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game";
+    // let imgDirectory = "@master/img/";
+    let imgDirectory = "@442c044119dd754b10617a7efd4816e5da3cd58e/res/img/";
+    let piezas = [
+        "bishop",
+        "rook",
+        "knight",
+        "queen",
+        "king",
+        "pawn"
+    ];
+    let imgFormat = ".png";
 
-        bishopB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-bishop.png"),
-        rookB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-rok.png"),
-        knightB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-knight.png"),
-        queenB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-queen.png"),
-        kingB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-king.png"),
-        pawnB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-pawn.png")
-    };
+    url += imgDirectory;
+    for (let t = 0; t < 2; t++) { // for each type (White and black)
+        let currentType = types[t];
+        for (let p = 0; p < 6; p++) {
+            imgs[piezas[p] + currentType] = loadImage(
+                url + currentType + "-" + piezas[p] + imgFormat
+            );
+        }
+    }
 }
