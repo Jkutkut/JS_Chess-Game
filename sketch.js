@@ -217,34 +217,19 @@ function mouseClicked(){
 }
 
 function preload(){
-// imgs = {
-//   bishopW: loadImage("img/w-bishop.png"),
-//   rookW: loadImage("img/w-rook.png"),
-//   knightW: loadImage("img/w-knight.png"),
-//   queenW: loadImage("img/w-queen.png"),
-//   kingW: loadImage("img/w-king.png"),
-//   pawnW: loadImage("img/w-pawn.png"),
+    imgs = {
+        bishopW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-bishop.png"),
+        rookW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-rook.png"),
+        knightW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-knight.png"),
+        queenW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-queen.png"),
+        kingW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-king.png"),
+        pawnW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-pawn.png"),
 
-//   bishopB: loadImage("img/chess-bishop.png"),
-//   rookB: loadImage("img/chess-rok.png"),
-//   knightB: loadImage("img/chess-knight.png"),
-//   queenB: loadImage("img/chess-queen.png"),
-//   kingB: loadImage("img/chess-king.png"),
-//   pawnB: loadImage("img/chess-pawn.png")
-// };
-imgs = {
-bishopW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-bishop.png"),
-rookW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-rook.png"),
-knightW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-knight.png"),
-queenW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-queen.png"),
-kingW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-king.png"),
-pawnW: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/w-pawn.png"),
-
-bishopB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-bishop.png"),
-rookB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-rok.png"),
-knightB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-knight.png"),
-queenB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-queen.png"),
-kingB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-king.png"),
-pawnB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-pawn.png")
-};
+        bishopB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-bishop.png"),
+        rookB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-rok.png"),
+        knightB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-knight.png"),
+        queenB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-queen.png"),
+        kingB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-king.png"),
+        pawnB: loadImage("https://cdn.jsdelivr.net/gh/Jkutkut/JS-Chess-Game@master/img/chess-pawn.png")
+    };
 }
