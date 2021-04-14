@@ -27,27 +27,30 @@ class ChessBoard {
         this._teamPieces = [new Set(), new Set()];
 
         
-        let order = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
-        // for(let i = 0; i < 8; i++){
-        //     grid[i][0].setPiece(new piece(order[i], 1));
-        //     grid[i][1].setPiece(new piece("pawn", 1));
-        //     grid[i][6].setPiece(new piece("pawn", -1));
-        //     grid[i][7].setPiece(new piece(order[i], -1));
-
-        //     //add pices to team var
-        //     team[0].push(grid[i][0].piece);
-        //     team[0].push(grid[i][1].piece);
-        //     team[1].push(grid[i][6].piece);
-        //     team[1].push(grid[i][7].piece);
-        // }
+        let order = [
+            ChessBoard.PIECES.rook,
+            ChessBoard.PIECES.knight,
+            ChessBoard.PIECES.bishop,
+            ChessBoard.PIECES.queen,
+            ChessBoard.PIECES.king,
+            ChessBoard.PIECES.bishop,
+            ChessBoard.PIECES.knight,
+            ChessBoard.PIECES.rook
+        ];
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 2; j++) {
-                let correctIndex = j * 5 + 1;
+                // pawns
+                let correctIndex = j * 5 + 1; // 1, 6
                 let piece = new ChessBoard.PIECES["pawn"](j, this.createPropertiesPiece(i, correctIndex));
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
+
+                // rest of pieces
+                correctIndex = j * 7; //0, 7
+                piece = new order[i](j, this.createPropertiesPiece(i, correctIndex));
+                this._grid[correctIndex][i] = piece;
+                this._teamPieces[j].add(piece);
             }
-            // grid[i][6].setPiece(new piece("pawn", -1));
         }
     }
 
