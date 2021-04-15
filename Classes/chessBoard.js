@@ -19,6 +19,11 @@ class ChessBoard {
         "rook": Rook
     }
 
+    static TURN = {
+        BLACK: 0,
+        WHITE: 1
+    }
+
     static ERRORS = {
         INVALIDCLASS: new Error("The class used is not a valid class."),
         INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
@@ -30,13 +35,12 @@ class ChessBoard {
         this._canvasSize = canvasSize;
         this._cellSize = canvasSize / 8;
 
-        this._grid = new Array(8);
+        // Create the pieces
+        this._grid = new Array(8); //pieces stored on a 2D array
         for(let i = 0; i < 8; i++){
             this._grid[i] = new Array(8);
         }
-        this._teamPieces = [new Set(), new Set()];
-
-        
+        this._teamPieces = [new Set(), new Set()]; // Each set stores the pieces of each team
         let order = [
             ChessBoard.PIECES.rook,
             ChessBoard.PIECES.knight,
@@ -47,8 +51,8 @@ class ChessBoard {
             ChessBoard.PIECES.knight,
             ChessBoard.PIECES.rook
         ];
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 2; j++) {
+        for (let i = 0; i < 8; i++) { // for each column
+            for (let j = 0; j < 2; j++) { // For each team
                 // pawns
                 let correctIndex = j * 5 + 1; // 1, 6
                 let piece = new ChessBoard.PIECES["pawn"](j, this.createVector(i, correctIndex));
