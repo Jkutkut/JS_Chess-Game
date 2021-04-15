@@ -1,25 +1,32 @@
-var mainCanvasSize = 400;
+var mainCanvasSize = 800;
 var cellSize;
 
 var chessBoard;
 var imgs = {};
 
-function setup() {
-    createCanvas(mainCanvasSize, mainCanvasSize);
+// FUNCTIONS
 
-    cellSize = mainCanvasSize / 8;
-    
-
-    chessBoard = new ChessBoard(mainCanvasSize);
-    noStroke();
+function ask(q, ...r){
+    asking = true;//to lock the drawing function
+    value = "";//reset value
+    $("#dialog").dialog();
+    $("#dialog").dialog( "option", "title", q);
+    btns = [];
+    for(let i = 0; i < r.length; i++){
+        btns.push({
+            text: r[i],
+            click: function() {
+                asking = false;
+                value = r[i];
+                grid[mX][mY].setPiece(new piece(value, grid[mX][mY].piece.team));
+                $(this).dialog("close");
+            }
+        });
+    }
+    $("#dialog").dialog("option", "buttons", btns); // setter
+    $('#myDialog').dialog( 'option', 'position', [mainCanvasSize, mainCanvasSize] );
+    $("#dialog").dialog("open");
 }
-
-function draw() {
-    // background(0);
-    chessBoard.show();
-    noLoop();
-}
-
 
 function preload(){
     let types = ["W", "B"];
@@ -44,4 +51,18 @@ function preload(){
             );
         }
     }
+}
+
+function setup() {
+    createCanvas(mainCanvasSize, mainCanvasSize);
+    cellSize = mainCanvasSize / 8;
+
+    chessBoard = new ChessBoard(mainCanvasSize);
+    noStroke();
+}
+
+function draw() {
+    // background(0);
+    chessBoard.show();
+    noLoop();
 }
