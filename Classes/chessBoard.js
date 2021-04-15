@@ -28,7 +28,8 @@ class ChessBoard {
         INVALIDCLASS: new Error("The class used is not a valid class."),
         INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
         INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
-        INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class.")
+        INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class."),
+        NOTYOURTURN: new Error("It is not the turn of this piece")
     };
 
     constructor(canvasSize) {
@@ -55,17 +56,19 @@ class ChessBoard {
             for (let j = 0; j < 2; j++) { // For each team
                 // pawns
                 let correctIndex = j * 5 + 1; // 1, 6
-                let piece = new ChessBoard.PIECES["pawn"](j, this.createVector(i, correctIndex));
+                let piece = new ChessBoard.PIECES["pawn"](j, this.createVector(correctIndex, i));
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
 
                 // rest of pieces
                 correctIndex = j * 7; //0, 7
-                piece = new order[i](j, this.createVector(i, correctIndex));
+                piece = new order[i](j, this.createVector(correctIndex, i));
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
             }
         }
+
+        this._turn = ChessBoard.TURN.WHITE; // Whites always start
     }
 
     /**
@@ -136,6 +139,19 @@ class ChessBoard {
         return this._teamPieces[index];
     }
 
+    get turn() {
+        return this._turn;
+    }
+
+    changeTurn() {
+        if (this.turn == ChessBoard.TURN.WHITE) {
+            this._turn = ChessBoard.TURN.BLACK;
+        }
+        else {
+            this._turn = ChessBoard.TURN.WHITE;
+        }
+    }
+
     // CHESS LOGIC
     
 
@@ -144,18 +160,28 @@ class ChessBoard {
             throw ChessBoard.ERRORS.INVALIDPIECE;
         }
 
+        if(piece.team != this.turn) {
+            throw ChessBoard.ERRORS.NOTYOURTURN;
+        }
+
         if (!ChessBoard.checkVector(v)) {
             throw ChessBoard.ERRORS.INVALIDVECTOR;
         }
 
         let oldPos = piece.vector;
         this.grid[v.r][v.c] = piece;
-        piece.vector = v;
         this.grid[oldPos.r][oldPos.c] = undefined;
+        console.log("this.grid[oldPos.r][oldPos.c]: " + this.grid[oldPos.r][oldPos.c]);
+        console.log(oldPos);
+        console.log(v);
+
+        piece.vector = v;
 
         // Update cells on canvas
         this.showCell(piece.vector);
         this.showCell(oldPos);
+
+        this.changeTurn();
     }
 
     // TOOLS

@@ -99,8 +99,8 @@ class ChessPiece {
         ChessBoard.checkVector(p); // if invalid, error is raised
         this._vector = p;
         this._imgProperties = [
-            this.vector.r * this.vector.size,
             this.vector.c * this.vector.size,
+            this.vector.r * this.vector.size,
             this.vector.size,
             this.vector.size
         ];
