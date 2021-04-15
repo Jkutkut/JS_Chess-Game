@@ -102,6 +102,15 @@ class ChessBoard {
         }
     }
 
+    // GETTERS AND SETTERS
+
+    /**
+     * Return the size of the p5.Canvas
+     */
+    get canvasSize() {
+        return this._canvasSize;
+    }
+
     /**
      * Return the size of each cell in pixels.
      */
@@ -186,6 +195,15 @@ class ChessBoard {
 
     // TOOLS
 
+    mouseHandler(mX, mY) {
+        let mouse = {
+            c: (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1,
+            r: (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1
+        };
+
+        return mouse;
+    }
+
     /**
      * Returns the correct properties of the cell at the selected index.
      * @param {int} r row position.
@@ -198,7 +216,6 @@ class ChessBoard {
             c: c,
             size: this.cellSize
         }
-        ChessBoard.checkVector(v); // Check if vector is valid
         return v;
     }
 

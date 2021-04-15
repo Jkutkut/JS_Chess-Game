@@ -4,6 +4,10 @@ var cellSize;
 var chessBoard;
 var imgs = {};
 
+// debug
+var mouse;
+var debugPos;
+
 // FUNCTIONS
 
 function ask(q, ...r){
@@ -59,10 +63,18 @@ function setup() {
 
     chessBoard = new ChessBoard(mainCanvasSize);
     noStroke();
-}
+    textSize(20);
+    fill(255);
 
-function draw() {
     // background(0);
     chessBoard.show();
-    noLoop();
+
+    debugPos = chessBoard.createVector(3, 4);
+}
+
+
+function draw() {
+    let mouse = chessBoard.mouseHandler(mouseX, mouseY);
+    chessBoard.showCell(debugPos);
+    text("("+mouse.r+", "+mouse.c+")", debugPos.size * 4.28, debugPos.size * 3.55);
 }
