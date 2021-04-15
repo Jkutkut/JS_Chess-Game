@@ -21,7 +21,7 @@ class ChessBoard {
 
     static ERRORS = {
         INVALIDCLASS: new Error("The class used is not a valid class."),
-        INVALIDPIECE: new Error("The piece must be a string with the name of the piece (rook, king...)."),
+        INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
         INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
         INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class.")
     };
@@ -68,21 +68,31 @@ class ChessBoard {
      * Represents the board on a p5.Canvas
      */
     show() {
-        push();
-        stroke
         for(let i = 0; i < 8; i++){
             for(let j = 0; j < 8; j++){
-                fill(...ChessBoard.COLORS[(i + j) % 2]);
-                rect(this.cellSize * i, this.cellSize * j, this.cellSize, this.cellSize);
+                this.showCell(this.createVector(i, j));
             }
+        }
+    }
+
+    /**
+     * Represents the selected cell (0 based) on a p5.Canvas
+     * @param {int} r index of the desired row
+     * @param {int} c index of the desired col
+     */
+    showCell(pos) {
+        if (!ChessBoard.checkVector(pos)) {
+            throw ChessBoard.ERRORS.INVALIDVECTOR;
         }
 
-        for (let team of this._teamPieces) {
-            for (let piece of team) {
-                piece.show();
-            }
-        }
+        push();
+        fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
+        rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
         pop();
+        let possiblePiece = this.grid[pos.r][pos.c];
+        if (possiblePiece instanceof ChessPiece) {
+            possiblePiece.show();
+        }
     }
 
     /**
@@ -125,18 +135,23 @@ class ChessBoard {
     // CHESS LOGIC
     
 
-    movePiece(piece, position)  {
-        if (!piece instanceof ChessPiece) {
+    movePiece(piece, v)  {
+        if (!(piece instanceof ChessPiece)) {
             throw ChessBoard.ERRORS.INVALIDPIECE;
         }
 
-        if (!ChessBoard.checkVector(position)) {
+        if (!ChessBoard.checkVector(v)) {
             throw ChessBoard.ERRORS.INVALIDVECTOR;
         }
 
-        // let oldPos = piece.
-        this.grid[position.r][position.c] = piece;
-        
+        let oldPos = piece.vector;
+        this.grid[v.r][v.c] = piece;
+        piece.vector = v;
+        this.grid[oldPos.r][oldPos.c] = undefined;
+
+        // Update cells on canvas
+        this.showCell(piece.vector);
+        this.showCell(oldPos);
     }
 
     // TOOLS
@@ -148,11 +163,13 @@ class ChessBoard {
      * @returns The correct object to send to the ChessPiece classes.
      */
     createVector(r, c) {
-        return {
+        let v = {
             r: r,
             c: c,
             size: this.cellSize
         }
+        ChessBoard.checkVector(v); // Check if vector is valid
+        return v;
     }
 
     static checkVector(position) {
