@@ -1,3 +1,6 @@
+/**
+ * Class to have the logic of a full chess board
+ */
 class ChessBoard {
     static COLORS = [
         [213, 184, 144],
@@ -54,6 +57,9 @@ class ChessBoard {
         }
     }
 
+    /**
+     * Represents the board on a p5.Canvas
+     */
     show() {
         push();
         stroke
@@ -72,10 +78,16 @@ class ChessBoard {
         pop();
     }
 
+    /**
+     * Return the size of each cell in pixels
+     */
     get cellSize() {
         return this._cellSize;
     }
 
+    /**
+     * Return the 2D array with the pieces on their positions
+     */
     get grid() {
         return this._grid;
     }
