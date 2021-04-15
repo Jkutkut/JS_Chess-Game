@@ -79,27 +79,50 @@ class ChessBoard {
     }
 
     /**
-     * Return the size of each cell in pixels
+     * Return the size of each cell in pixels.
      */
     get cellSize() {
         return this._cellSize;
     }
 
     /**
-     * Return the 2D array with the pieces on their positions
+     * Return the 2D array with the pieces on their positions.
      */
     get grid() {
         return this._grid;
+    }
+
+    /**
+     * Return the pieces of the White team as a Set<ChessPiece>.
+     */
+    get whiteTeam() {
+        return this.getTeam(ChessPiece.TEAM.WHITE);
+    }
+
+    /**
+     * Return the pieces of the Black team as a Set<ChessPiece>.
+     */
+    get blackTeam() {
+        return this.getTeam(ChessPiece.TEAM.BLACK);
+    }
+
+    /**
+     * Returns the selected team pieces as a Set<ChessPiece>.
+     * @param {int} index Index of the team, following the ChessPiece.TEAM logic.
+     * @returns The selected Set.
+     */
+    getTeam(index) {
+        return this._teamPieces[index];
     }
 
 
     // TOOLS
 
     /**
-     * Returns the correct properties of the cell at the selected index
-     * @param {int} r row position
-     * @param {int} c col position
-     * @returns The correct object to send to the ChessPiece classes
+     * Returns the correct properties of the cell at the selected index.
+     * @param {int} r row position.
+     * @param {int} c col position.
+     * @returns The correct object to send to the ChessPiece classes.
      */
     createPropertiesPiece(r, c) {
         return {
