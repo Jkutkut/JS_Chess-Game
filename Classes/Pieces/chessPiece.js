@@ -19,35 +19,28 @@ class ChessPiece {
         "W"
     ];
 
-    static ERRORS = {
-        INVALIDCLASS: new Error("The class used is not a valid class."),
-        INVALIDPIECE: new Error("The piece must be a string with the name of the piece (rook, king...)."),
-        INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it.")
-    };
-
-    constructor(team, properties=null) {
+    constructor(team, vector=null) {
         let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
         
         // Check correct input
         if (!ChessPiece.PIECENAME.includes(piece)) {
-            throw ChessPiece.ERRORS.INVALIDCLASS;
+            throw ChessBoard.ERRORS.INVALIDCLASS;
         }
         if (team != ChessPiece.TEAM.WHITE && team != ChessPiece.TEAM.BLACK) {
-            throw ChessPiece.ERRORS.INVALIDTEAM;
+            throw ChessBoard.ERRORS.INVALIDTEAM;
         }
 
         this._piece = piece;
         this._team = team;
-        
-        this._properties = undefined;
-        if (properties == null) {
-            properties = {r: 0, h: 0, size: 50};
-        }
 
         this._img = imgs[this.piece + this.teamName];
         this._imgProperties = undefined;
 
-        this.setNewProperties(properties);
+        this._vector = undefined;
+        if (vector == null) {
+            vector = {r: 0, h: 0, size: 50};
+        }
+        this.vector = vector;
     }
 
     /**
@@ -57,19 +50,6 @@ class ChessPiece {
         image(this.img, ...this.imgProperties);
     }
 
-    /**
-     * Overwrites the properties of the piece
-     * @param {object} p (optional) object with the properties of the piece
-     */
-    setNewProperties(p) {
-        this._properties = p
-        this._imgProperties = [
-            this.properties.r * this.properties.size,
-            this.properties.c * this.properties.size,
-            this.properties.size,
-            this.properties.size
-        ];
-    }
 
     // SETTERS AND GETTERS
     /**
@@ -110,8 +90,22 @@ class ChessPiece {
     /**
      * @returns object with all the properties of the piece (position, size...)
      */
-    get properties() {
+    get vector() {
         return this._properties;
+    }
+
+    /**
+     * Overwrites the properties of the piece
+     * @param {object} p (optional) object with the properties of the piece
+     */
+     set vector(p) {
+        this._vector = p
+        this._imgProperties = [
+            this.vector.r * this.vector.size,
+            this.vector.c * this.vector.size,
+            this.vector.size,
+            this.vector.size
+        ];
     }
 }
 
