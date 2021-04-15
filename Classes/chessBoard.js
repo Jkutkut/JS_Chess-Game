@@ -19,6 +19,13 @@ class ChessBoard {
         "rook": Rook
     }
 
+    static ERRORS = {
+        INVALIDCLASS: new Error("The class used is not a valid class."),
+        INVALIDPIECE: new Error("The piece must be a string with the name of the piece (rook, king...)."),
+        INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
+        INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class.")
+    };
+
     constructor(canvasSize) {
         this._canvasSize = canvasSize;
         this._cellSize = canvasSize / 8;
@@ -44,13 +51,13 @@ class ChessBoard {
             for (let j = 0; j < 2; j++) {
                 // pawns
                 let correctIndex = j * 5 + 1; // 1, 6
-                let piece = new ChessBoard.PIECES["pawn"](j, this.createPropertiesPiece(i, correctIndex));
+                let piece = new ChessBoard.PIECES["pawn"](j, this.createVector(i, correctIndex));
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
 
                 // rest of pieces
                 correctIndex = j * 7; //0, 7
-                piece = new order[i](j, this.createPropertiesPiece(i, correctIndex));
+                piece = new order[i](j, this.createVector(i, correctIndex));
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
             }
@@ -115,6 +122,22 @@ class ChessBoard {
         return this._teamPieces[index];
     }
 
+    // CHESS LOGIC
+    
+
+    movePiece(piece, position)  {
+        if (!piece instanceof ChessPiece) {
+            throw ChessBoard.ERRORS.INVALIDPIECE;
+        }
+
+        if (!ChessBoard.checkVector(position)) {
+            throw ChessBoard.ERRORS.INVALIDVECTOR;
+        }
+
+        // let oldPos = piece.
+        this.grid[position.r][position.c] = piece;
+        
+    }
 
     // TOOLS
 
@@ -124,11 +147,17 @@ class ChessBoard {
      * @param {int} c col position.
      * @returns The correct object to send to the ChessPiece classes.
      */
-    createPropertiesPiece(r, c) {
+    createVector(r, c) {
         return {
             r: r,
             c: c,
             size: this.cellSize
         }
+    }
+
+    static checkVector(position) {
+        return Number.isInteger(position.r) && Number.isInteger(position.c) &&
+            position.r >= 0 && position.r < 9 && 
+            position.c >= 0 && position.c < 9
     }
 }

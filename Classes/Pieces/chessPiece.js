@@ -36,10 +36,7 @@ class ChessPiece {
         this._img = imgs[this.piece + this.teamName];
         this._imgProperties = undefined;
 
-        this._vector = undefined;
-        if (vector == null) {
-            vector = {r: 0, h: 0, size: 50};
-        }
+        
         this.vector = vector;
     }
 
@@ -91,15 +88,16 @@ class ChessPiece {
      * @returns object with all the properties of the piece (position, size...)
      */
     get vector() {
-        return this._properties;
+        return this._vector;
     }
 
     /**
      * Overwrites the properties of the piece
      * @param {object} p (optional) object with the properties of the piece
      */
-     set vector(p) {
-        this._vector = p
+    set vector(p) {
+        ChessBoard.checkVector(p); // if invalid, error is raised
+        this._vector = p;
         this._imgProperties = [
             this.vector.r * this.vector.size,
             this.vector.c * this.vector.size,
