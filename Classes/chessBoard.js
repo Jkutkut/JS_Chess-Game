@@ -72,6 +72,7 @@ class ChessBoard {
 
         // User control:
         this._mouse = this.createVector(-1, -1);
+        this.pieceLocked = null;
     }
 
     /**
@@ -151,6 +152,10 @@ class ChessBoard {
         return this._teamPieces[index];
     }
 
+    /**
+     * Current turn.
+     * @example turn = ChessBoard.TURN.WHITE => turn for white pieces to move
+     */
     get turn() {
         return this._turn;
     }
@@ -204,7 +209,6 @@ class ChessBoard {
         this.changeTurn();
     }
 
-    // TOOLS
 
     mouseHandler(mX, mY) {
         let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
@@ -221,6 +225,38 @@ class ChessBoard {
         return mouseChanged;
     }
 
+    clickHandler() {
+        if (!ChessBoard.checkVector(this.mouse)) {
+            return;
+        }
+
+        let pieceAimed = this.grid[this.mouse.r][this.mouse.c];
+
+        if (pieceAimed == undefined) {
+            this.pieceLocked = null;
+            console.info("focus lost");
+            return;
+        }
+        
+        if (!this.pieceLocked) { // if looking for a piece to select
+            if (pieceAimed.team == this.turn) {
+                // if selecting a piece from the team that plays now
+                this.pieceLocked = pieceAimed;
+                console.log("click");
+                console.log(pieceAimed.vector)
+            }
+            
+        }
+        else { // If piece selected
+            // if pieceAimed is in valid spots
+                // move
+        }
+    }
+
+    
+    
+    // TOOLS
+    
     /**
      * Returns the correct properties of the cell at the selected index.
      * @param {int} r row position.

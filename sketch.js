@@ -75,8 +75,13 @@ function setup() {
 
 function draw() {
     if (chessBoard.mouseHandler(mouseX, mouseY)) {
-        let mouse = chessBoard.mouse;
+        mouse = chessBoard.mouse;
+        if (mouse)
         chessBoard.showCell(debugPos);
         text("("+mouse.r+", "+mouse.c+")", debugPos.size * 4.28, debugPos.size * 3.55);
     }
+}
+
+function mouseClicked() {
+    chessBoard.clickHandler();
 }
