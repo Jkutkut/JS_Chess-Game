@@ -69,6 +69,9 @@ class ChessBoard {
         }
 
         this._turn = ChessBoard.TURN.WHITE; // Whites always start
+
+        // User control:
+        this._mouse = this.createVector(-1, -1);
     }
 
     /**
@@ -196,12 +199,9 @@ class ChessBoard {
     // TOOLS
 
     mouseHandler(mX, mY) {
-        let mouse = {
-            c: (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1,
-            r: (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1
-        };
-
-        return mouse;
+        this._mouse.r = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
+        this._mouse.c = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
+        return this._mouse;
     }
 
     /**
