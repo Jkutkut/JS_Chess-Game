@@ -19,6 +19,8 @@ class ChessBoard {
         "rook": Rook
     }
 
+    static EMPTYCELL = undefined;
+
     static TURN = {
         BLACK: 0,
         WHITE: 1
@@ -195,7 +197,7 @@ class ChessBoard {
 
         let oldPos = piece.vector;
         this.grid[v.r][v.c] = piece;
-        this.grid[oldPos.r][oldPos.c] = undefined;
+        this.grid[oldPos.r][oldPos.c] = ChessBoard.EMPTYCELL;
         console.log("this.grid[oldPos.r][oldPos.c]: " + this.grid[oldPos.r][oldPos.c]);
         console.log(oldPos);
         console.log(v);
@@ -232,7 +234,7 @@ class ChessBoard {
 
         let pieceAimed = this.grid[this.mouse.r][this.mouse.c];
 
-        if (pieceAimed == undefined) {
+        if (pieceAimed == ChessBoard.EMPTYCELL) {
             this.pieceLocked = null;
             console.info("focus lost");
             return;
