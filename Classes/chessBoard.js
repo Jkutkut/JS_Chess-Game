@@ -164,6 +164,10 @@ class ChessBoard {
         }
     }
 
+    /**
+     * Returns custom vector with the row and cell aimed with the mouse.
+     * If position not on board, coordinate = -1.
+     */
     get mouse() {
         return this._mouse;
     }
@@ -224,14 +228,18 @@ class ChessBoard {
      * @returns The correct object to send to the ChessPiece classes.
      */
     createVector(r, c) {
-        let v = {
+        return {
             r: r,
             c: c,
             size: this.cellSize
         }
-        return v;
     }
 
+    /**
+     * Chechs it the selected indexes are inside the board
+     * @param {object} position chessBoard.createVector object
+     * @returns Result of the analysis
+     */
     static checkVector(position) {
         return Number.isInteger(position.r) && Number.isInteger(position.c) &&
             position.r >= 0 && position.r < 9 && 
