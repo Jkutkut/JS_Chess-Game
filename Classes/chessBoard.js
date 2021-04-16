@@ -59,11 +59,12 @@ class ChessBoard {
             ChessBoard.PIECES.knight,
             ChessBoard.PIECES.rook
         ];
+        let correctIndex, piece;
         for (let i = 0; i < 8; i++) { // for each column
             for (let j = 0; j < 2; j++) { // For each team
                 // pawns
-                let correctIndex = j * 5 + 1; // 1, 6
-                let piece = new ChessBoard.PIECES["pawn"](j, this.createVector(correctIndex, i), this);
+                correctIndex = j * 5 + 1; // 1, 6
+                piece = new ChessBoard.PIECES["pawn"](j, this.createVector(correctIndex, i), this);
                 this._grid[correctIndex][i] = piece;
                 this._teamPieces[j].add(piece);
 
