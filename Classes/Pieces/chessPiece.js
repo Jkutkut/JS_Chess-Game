@@ -180,7 +180,7 @@ class ChessPiece {
                 moves.add([dir, am]);
             }
         }
-        return moves;
+        return {cell: this, moves: moves};
     }
 }
 
