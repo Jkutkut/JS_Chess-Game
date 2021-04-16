@@ -24,7 +24,7 @@ class ChessPiece {
             {r: 1, c: 1},
             {r: 1, c: -1},
             {r: -1, c: 1},
-            {r: -1, c: 1}
+            {r: -1, c: -1}
         ],
         lines: [
             {r: 1, c: 0},
