@@ -164,6 +164,10 @@ class ChessBoard {
         }
     }
 
+    get mouse() {
+        return this._mouse;
+    }
+
     // CHESS LOGIC
     
 
@@ -199,9 +203,18 @@ class ChessBoard {
     // TOOLS
 
     mouseHandler(mX, mY) {
-        this._mouse.r = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
-        this._mouse.c = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
-        return this._mouse;
+        let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
+        let newC = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
+        let mouseChanged = false;
+        if (newR != this.mouse.r) {
+            this._mouse.r = newR;
+            mouseChanged = true;
+        }
+        if (newC != this.mouse.c) {
+            this._mouse.c = newC;
+            mouseChanged = true;
+        }
+        return mouseChanged;
     }
 
     /**
