@@ -149,14 +149,27 @@ class ChessPiece {
         ];
     }
 
+    /**
+     * @returns Directions allow by this piece.
+     * @see ChessPiece.PIECESMOVEMENT to see the avalible
+     */
     get moveDirections() {
         return this._moveDir;
     }
 
+    /**
+     * @returns Amount of cells this piece can move on a single move.
+     */
     get amount() {
         return this._amount;
     }
 
+    /**
+     * Having on mind the current board, calculate all possible movements for this piece.
+     * @returns Custom object with the possible moves of this cell.
+     * @see this.parent with the ChessBoard instance
+     * @see ChessPiece.PIECESMOVEMENT for moves
+     */
     getMoves(){
         let moves = new Set();
         let am, pieceV, pieceToCheck;
