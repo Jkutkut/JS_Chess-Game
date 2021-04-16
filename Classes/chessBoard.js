@@ -5,9 +5,9 @@ class ChessBoard {
     static COLORS = [
         [213, 184, 144],
         [114, 54, 26],
-        // color(255, 255, 0, 100),
-        // color(255,0,0, 200),
-        // color(0,0,100)
+        [0, 0, 100], // focus
+        [255, 255, 0, 100], // aimed
+        [255, 0, 0, 200] // atack
     ];
 
     static PIECES = {
@@ -20,6 +20,11 @@ class ChessBoard {
     }
 
     static EMPTYCELL = undefined;
+    static CELLSTATE = {
+        NORMAL: 0,
+        FOCUSED:2,
+        AIMED: 3
+    };
 
     static TURN = {
         BLACK: 0,
@@ -75,6 +80,7 @@ class ChessBoard {
         // User control:
         this._mouse = this.createVector(-1, -1);
         this.pieceLocked = null;
+        this._currentMoves = {piece: null, moves: new Set()};
     }
 
     /**
@@ -93,7 +99,7 @@ class ChessBoard {
      * @param {int} r index of the desired row
      * @param {int} c index of the desired col
      */
-    showCell(pos) {
+    showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
         if (!ChessBoard.checkVector(pos)) {
             throw ChessBoard.ERRORS.INVALIDVECTOR;
         }
@@ -102,7 +108,26 @@ class ChessBoard {
         fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
         rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
         pop();
+
         let possiblePiece = this.grid[pos.r][pos.c];
+
+        if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
+            let colorIndex;
+            if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
+                colorIndex = aimed;
+                if (possiblePiece instanceof ChessPiece) { 
+                    colorIndex++; // if possibleCell is a piece and aimed => attack
+                }
+            }
+            else { // focused
+                // colorIndex
+            }
+            push();
+            fill(...ChessBoard.COLORS[colorIndex]);
+            rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+            pop();
+        }
+
         if (possiblePiece instanceof ChessPiece) {
             possiblePiece.show();
         }
@@ -179,6 +204,44 @@ class ChessBoard {
         return this._mouse;
     }
 
+    get currentMoves() {
+        return this._currentMoves;
+    }
+
+    updateCurrentMoves() {
+        if (this.pieceLocked != null) { // if piece locked
+            console.log("piece locked")
+            return;
+        }
+        
+        this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
+
+        if (!ChessBoard.checkVector(this.mouse)) { // if not valid index
+            return;
+        }
+
+        let possibleCell = this.grid[this.mouse.r][this.mouse.c];
+
+        if (possibleCell instanceof ChessPiece) {
+            this._currentMoves = possibleCell.getMoves();
+        }
+
+        this.showMovement(ChessBoard.CELLSTATE.AIMED);
+    }
+
+    showMovement(state) {
+        let cellV;
+        for (let move of this.currentMoves.moves) {
+            for (let i = 1; i <= move[1]; i++) { // for each amount
+                cellV = this.createVector(
+                    this.currentMoves.piece.vector.r + i * move[0].r,
+                    this.currentMoves.piece.vector.c + i * move[0].c
+                );
+                this.showCell(cellV, state);
+            }
+        }
+    }
+
     // CHESS LOGIC
     
 
@@ -213,9 +276,10 @@ class ChessBoard {
 
 
     mouseHandler(mX, mY) {
+        // get new indices
         let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
         let newC = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
-        let mouseChanged = false;
+        let mouseChanged = false; // Condition to see if mouse has changed position since last call
         if (newR != this.mouse.r) {
             this._mouse.r = newR;
             mouseChanged = true;
@@ -223,6 +287,10 @@ class ChessBoard {
         if (newC != this.mouse.c) {
             this._mouse.c = newC;
             mouseChanged = true;
+        }
+
+        if (mouseChanged) {
+            this.updateCurrentMoves();
         }
         return mouseChanged;
     }
