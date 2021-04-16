@@ -2,6 +2,9 @@
  * Class with the logic to create a piece of chess. Designed to use it with the ChessBoard class.
  */
 class ChessPiece {
+    /**
+     * All possible pieces names
+     */
     static PIECENAME = [
         "bishop",
         "king",
@@ -10,15 +13,27 @@ class ChessPiece {
         "queen",
         "rook"
     ];
+
+    /**
+     * Standar value of each team. Used to define the this.team value.
+     */
     static TEAM = {
         BLACK: 0,
         WHITE: 1
     };
+
+    /**
+     * Strings to transforms the current team to a string.
+     * @see ChessPiece.TEAM
+     */
     static TEAMIMGPREFIX = [
         "B",
         "W"
     ];
 
+    /**
+     * All possible movements allowed (not castling)
+     */
     static PIECESMOVEMENT = {
         diagonals: [
             {r: 1, c: 1},
