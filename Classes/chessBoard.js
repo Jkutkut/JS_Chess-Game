@@ -188,6 +188,11 @@ class ChessBoard {
         return this._turn;
     }
 
+    /**
+     * Changes the turn of board.
+     * @see this.turn for the current turn.
+     * @see ChessBoard.TURN for possible turns.
+     */
     changeTurn() {
         if (this.turn == ChessBoard.TURN.WHITE) {
             this._turn = ChessBoard.TURN.BLACK;
@@ -205,9 +210,14 @@ class ChessBoard {
         return this._mouse;
     }
 
+    /**
+     * Return the current object with the cell used and the avalible moves for that cell
+     * @see ChessPiece.getMoves function to see how it is generated
+     */
     get currentMoves() {
         return this._currentMoves;
     }
+
 
     updateCurrentMoves() {
         if (this.pieceLocked != null) { // if piece locked
@@ -230,9 +240,15 @@ class ChessBoard {
         this.showMovement(ChessBoard.CELLSTATE.AIMED);
     }
 
+    /**
+     * Updates the movement of the currentMoves object based on the given state.
+     * @param {int} state Desired state of the cells.
+     * @see ChessBoard.updateCurrentMoves function for states used
+     * @see ChessBoard.CELLSTATE for the standar states
+     */
     showMovement(state) {
         let cellV;
-        for (let move of this.currentMoves.moves) {
+        for (let move of this.currentMoves.moves) { // for each possible move of the current cell
             for (let i = 1; i <= move[1]; i++) { // for each amount
                 cellV = this.createVector(
                     this.currentMoves.piece.vector.r + i * move[0].r,
@@ -245,7 +261,13 @@ class ChessBoard {
 
     // CHESS LOGIC
     
-
+    /**
+     * Appends to move the desired piece to the desired location.
+     * @param {ChessPiece} piece Desired piece.
+     * @param {Object} v Custom ChessBoard.createVector() object with the desired new position.
+     * @throws Error if invalid input or not valid turn to move the desired piece.
+     * @see ChessBoard.createVector() method where the object is generated.
+     */
     movePiece(piece, v)  {
         if (!(piece instanceof ChessPiece)) {
             throw ChessBoard.ERRORS.INVALIDPIECE;
