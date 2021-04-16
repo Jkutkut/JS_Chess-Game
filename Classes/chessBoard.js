@@ -2,14 +2,22 @@
  * Class to have the logic of a full chess board
  */
 class ChessBoard {
+    /**
+     * Colors used to represent the cells on the board.
+     * 
+     * Current order: WhiteCell, BlackCell, FocusCell, AimedCell, AttackedCell
+     */
     static COLORS = [
         [213, 184, 144],
         [114, 54, 26],
-        [0, 0, 100], // focus
-        [255, 255, 0, 100], // aimed
-        [255, 0, 0, 200] // atack
+        [0, 0, 100],
+        [255, 255, 0, 100],
+        [255, 0, 0, 200]
     ];
 
+    /**
+     * Conversor string-Class of pieces.
+     */
     static PIECES = {
         "bishop": Bishop,
         "king": King,
@@ -19,18 +27,34 @@ class ChessBoard {
         "rook": Rook
     }
 
+    /**
+     * When this.grid has a cell with no piece on it, this value is stored instead.
+     */
     static EMPTYCELL = undefined;
+
+    /**
+     * All possible states a cell can be represented.
+     * @see this.showCell function to see how the value changes the color.
+     * @see ChessBoard.COLORS to see the colors used.
+     */
     static CELLSTATE = {
         NORMAL: 0,
         FOCUSED:2,
         AIMED: 3
     };
 
+    /**
+     * The possible values this.turn can be and what it represents.
+     * @example this.turn == ChessBoard.TURN.BLACK => black pieces playing
+     */
     static TURN = {
         BLACK: 0,
         WHITE: 1
     }
 
+    /**
+     * All spected errors that can happend on this class.
+     */
     static ERRORS = {
         INVALIDCLASS: new Error("The class used is not a valid class."),
         INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
