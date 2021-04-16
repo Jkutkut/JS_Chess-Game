@@ -19,7 +19,32 @@ class ChessPiece {
         "W"
     ];
 
-    constructor(team, vector=null) {
+    static PIECESMOVEMENT = {
+        diagonals: [
+            {r: 1, c: 1},
+            {r: 1, c: -1},
+            {r: -1, c: 1},
+            {r: -1, c: 1}
+        ],
+        lines: [
+            {r: 1, c: 0},
+            {r: -1, c: 0},
+            {r: 0, c: 1},
+            {r: 0, c: -1}
+        ],
+        knight: [
+            {r: 2, c: 1},
+            {r: 2, c: -1},
+            {r: -2, c: 1},
+            {r: -2, c: -1},
+            {r: -1, c: 2},
+            {r:  1, c: 2},
+            {r: -1, c: -2},
+            {r: 1, c: -2},
+        ]
+    }
+
+    constructor(team, vector, parent) {
         let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
         
         // Check correct input
@@ -32,11 +57,13 @@ class ChessPiece {
 
         this._piece = piece;
         this._team = team;
+        this._board = parent;
 
         this._img = imgs[this.piece + this.teamName];
         this._imgProperties = undefined;
 
-        
+        this._moveDir = undefined;
+
         this.vector = vector;
     }
 
@@ -105,6 +132,17 @@ class ChessPiece {
             this.vector.size
         ];
     }
+
+    static CELLSTATE = {
+        EMPTY: -1,
+        //BLACKPIECE = ChessPiece.TEAM.BLACK
+        //WHITEPIECE = ChessPiece.TEAM.WHITE
+    };
+    _getMoves(dr, dc, amount) {
+        
+    };
+
+    getMoves(){}
 }
 
 class Bishop extends ChessPiece {
@@ -128,6 +166,10 @@ class Knight extends ChessPiece {
 class Pawn extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+    }
+
+    getMoves() {
+        
     }
 }
 
