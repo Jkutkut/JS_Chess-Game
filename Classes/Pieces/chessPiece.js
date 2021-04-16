@@ -134,12 +134,53 @@ class ChessPiece {
         ];
     }
 
-    _getMoves(dr, dc, amount) {
-        
-    };
+    get moveDirections() {
+        return this._moveDir;
+    }
+
+    get amount() {
+        return this._amount;
+    }
 
     getMoves(){
+        let moves = new Set();
+        let am, pieceV, pieceToCheck;
+        for (let dir of this.moveDirections) {
+            am = 0;
+            // console.log("----");
+            // console.log(dir);
+            for(let i = 1; i <= this.amount; i++) {
+                pieceV = this._board.createVector(
+                    this.vector.r + i * dir.r,
+                    this.vector.c + i * dir.c
+                );
+                // console.log(pieceV);
+                // if (pieceV.r == 2 && (pieceV.c == 0 || pieceV.c == 2)) {
+                //     console.log("checked");
+                // }
 
+                if (!ChessBoard.checkVector(pieceV)) {
+                    break; // if not valid index (out of bounds)
+                }
+
+                pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+                if (pieceToCheck == ChessBoard.EMPTYCELL) {
+                    am++;
+                    continue;
+                }
+                else if (pieceToCheck.team == this.team) {
+                    break;
+                }
+                else { // != this.team
+                    am++;
+                    break;
+                }
+            }
+            if (am > 0) {
+                moves.add([dir, am]);
+            }
+        }
+        return moves;
     }
 }
 
@@ -147,7 +188,7 @@ class Bishop extends ChessPiece {
     constructor(...arg) {
         super(...arg);
         this._moveDir = ChessPiece.PIECESMOVEMENT.diagonals;
-        this.amount = Infinity;
+        this._amount = Infinity;
     }
 }
 
@@ -197,6 +238,6 @@ class Rook extends ChessPiece {
     constructor(...arg) {
         super(...arg);
         this._moveDir = ChessPiece.PIECESMOVEMENT.lines;
-        this.amount = Infinity;
+        this._amount = Infinity;
     }
 }
