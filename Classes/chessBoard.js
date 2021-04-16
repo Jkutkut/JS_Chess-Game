@@ -280,7 +280,7 @@ class ChessBoard {
      */
     static checkVector(position) {
         return Number.isInteger(position.r) && Number.isInteger(position.c) &&
-            position.r >= 0 && position.r < 9 && 
-            position.c >= 0 && position.c < 9
+            position.r >= 0 && position.r < 8 && 
+            position.c >= 0 && position.c < 8
     }
 }
