@@ -62,9 +62,10 @@ class ChessPiece {
         this._img = imgs[this.piece + this.teamName];
         this._imgProperties = undefined;
 
-        this._moveDir = undefined;
+        this.vector = vector; // also updates this._imgProperties
 
-        this.vector = vector;
+        this._moveDir = undefined; // possible directions to go (from ChessPiece.Piecesmovement)
+        this._amount = undefined; // amount of cells a piece can move in each direction
     }
 
     /**
@@ -133,54 +134,69 @@ class ChessPiece {
         ];
     }
 
-    static CELLSTATE = {
-        EMPTY: -1,
-        //BLACKPIECE = ChessPiece.TEAM.BLACK
-        //WHITEPIECE = ChessPiece.TEAM.WHITE
-    };
     _getMoves(dr, dc, amount) {
         
     };
 
-    getMoves(){}
+    getMoves(){
+
+    }
 }
 
 class Bishop extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.diagonals;
+        this.amount = Infinity;
     }
 }
 
 class King extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+        this._moveDir = Array.prototype.concat(
+            ChessPiece.PIECESMOVEMENT.diagonals,
+            ChessPiece.PIECESMOVEMENT.lines
+        );
+        this._amount = 1;
     }
 }
 
 class Knight extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.knight;
+        this._amount = 1;
     }
 }
 
 class Pawn extends ChessPiece {
     constructor(...arg) {
         super(...arg);
-    }
-
-    getMoves() {
-        
+        this._moveDir = [
+            ChessPiece.PIECESMOVEMENT.lines[this.team],
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
+        ];
+        this._amount = 1;
     }
 }
 
 class Queen extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+        this._moveDir = Array.prototype.concat(
+            ChessPiece.PIECESMOVEMENT.diagonals,
+            ChessPiece.PIECESMOVEMENT.lines
+        );
+        this._amount = Infinity;
     }
 }
 
 class Rook extends ChessPiece {
     constructor(...arg) {
         super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.lines;
+        this.amount = Infinity;
     }
 }
