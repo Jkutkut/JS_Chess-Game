@@ -105,7 +105,7 @@ class ChessBoard {
         // User control:
         this._mouse = this.createVector(-1, -1);
         this.pieceLocked = null;
-        this._currentMoves = {piece: null, moves: new Set()};
+        this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
     }
 
     /**
@@ -245,7 +245,11 @@ class ChessBoard {
 
     updateCurrentMoves() {
         if (this.pieceLocked != null) { // if piece locked
-            console.log("piece locked")
+            console.warn("piece locked")
+            // if (current aimed cell in f(this.currentMoves.moves)){
+            //     this.showMovement(Normal)
+            //     this.showCell(aimed cell, focused State)
+            // }
             return;
         }
         
@@ -259,6 +263,11 @@ class ChessBoard {
 
         if (possibleCell instanceof ChessPiece) {
             this._currentMoves = possibleCell.getMoves();
+        }
+
+        if (this.currentMoves.piece.team != this.turn) {
+            console.warn("invalid team");
+            return
         }
 
         this.showMovement(ChessBoard.CELLSTATE.AIMED);
