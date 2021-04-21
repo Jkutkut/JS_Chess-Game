@@ -124,41 +124,39 @@ class ChessBoard {
      * @param {int} r index of the desired row
      * @param {int} c index of the desired col
      */
-    // showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
-    //     if (!(pos instanceof ChessVector) || !pos.checkVector()) {
-    //         throw ChessBoard.ERRORS.INVALIDVECTOR;
-    //     }
+    showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
+        if (!(pos instanceof ChessVector) || !pos.checkVector()) {
+            throw ChessBoard.ERRORS.INVALIDVECTOR;
+        }
 
-    //     push(); // basic cell representation
-    //     fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
-    //     rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
-    //     pop();
+        push(); // basic cell representation
+        fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
+        rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+        pop();
 
-    //     console.log(pos);
+        let possiblePiece = this.grid[pos.r][pos.c];
 
-    //     let possiblePiece = this.grid[pos.r][pos.c];
+        if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
+            let colorIndex;
+            if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
+                colorIndex = aimed;
+                if (possiblePiece instanceof ChessPiece) { 
+                    colorIndex++; // if possibleCell is a piece and aimed => attack
+                }
+            }
+            else { // focused
+                // colorIndex
+            }
+            push(); // hightlight the cell with the specified color
+            fill(...ChessBoard.COLORS[colorIndex]);
+            rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+            pop();
+        }
 
-    //     if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
-    //         let colorIndex;
-    //         if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
-    //             colorIndex = aimed;
-    //             if (possiblePiece instanceof ChessPiece) { 
-    //                 colorIndex++; // if possibleCell is a piece and aimed => attack
-    //             }
-    //         }
-    //         else { // focused
-    //             // colorIndex
-    //         }
-    //         push(); // hightlight the cell with the specified color
-    //         fill(...ChessBoard.COLORS[colorIndex]);
-    //         rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
-    //         pop();
-    //     }
-
-    //     if (possiblePiece instanceof ChessPiece) {
-    //         possiblePiece.show(); // represent the piece
-    //     }
-    // }
+        if (possiblePiece instanceof ChessPiece) {
+            possiblePiece.show(); // represent the piece
+        }
+    }
 
 //     // GETTERS AND SETTERS
 
@@ -334,7 +332,7 @@ class ChessBoard {
 //     }
 
 
-//     mouseHandler(mX, mY) {
+    mouseHandler(mX, mY) {
 //         // get new indices
 //         let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
 //         let newC = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
@@ -352,7 +350,7 @@ class ChessBoard {
 //         //     this.updateCurrentMoves();
 //         // }
 //         return mouseChanged;
-//     }
+    }
 
 //     clickHandler() {
 //         if (!this.mouse.checkVector()) {
