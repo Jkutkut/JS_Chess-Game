@@ -142,7 +142,7 @@ class ChessPiece {
      * @param {object} p (optional) object with the properties of the piece
      */
     set vector(p) {
-        if (!(p instanceof ChessVector) && !p.checkVector()) { // if invalid, error is raised
+        if (!(p instanceof ChessVector) || !p.checkVector()) { // if invalid, error is raised
             return
         }
         this._vector = p;
