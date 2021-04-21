@@ -1,230 +1,232 @@
-// /**
-//  * Class to have the logic of a full chess board
-//  */
-// class ChessBoard {
-//     /**
-//      * Colors used to represent the cells on the board.
-//      * 
-//      * Current order: WhiteCell, BlackCell, FocusCell, AimedCell, AttackedCell
-//      */
-//     static COLORS = [
-//         [213, 184, 144],
-//         [114, 54, 26],
-//         [0, 0, 100],
-//         [255, 255, 0, 100],
-//         [255, 0, 0, 200]
-//     ];
+/**
+ * Class to have the logic of a full chess board
+ */
+class ChessBoard {
+    /**
+     * Colors used to represent the cells on the board.
+     * 
+     * Current order: WhiteCell, BlackCell, FocusCell, AimedCell, AttackedCell
+     */
+    static COLORS = [
+        [213, 184, 144],
+        [114, 54, 26],
+        [0, 0, 100],
+        [255, 255, 0, 100],
+        [255, 0, 0, 200]
+    ];
 
-//     /**
-//      * Conversor string-Class of pieces.
-//      */
-//     static PIECES = {
-//         "bishop": Bishop,
-//         "king": King,
-//         "knight": Knight,
-//         "pawn": Pawn,
-//         "queen": Queen,
-//         "rook": Rook
-//     }
+    /**
+     * Conversor string-Class of pieces.
+     */
+    static PIECES = {
+        "bishop": Bishop,
+        "king": King,
+        "knight": Knight,
+        "pawn": Pawn,
+        "queen": Queen,
+        "rook": Rook
+    }
 
-//     /**
-//      * When this.grid has a cell with no piece on it, this value is stored instead.
-//      */
-//     static EMPTYCELL = undefined;
+    /**
+     * When this.grid has a cell with no piece on it, this value is stored instead.
+     */
+    static EMPTYCELL = undefined;
 
-//     /**
-//      * All possible states a cell can be represented.
-//      * @see this.showCell function to see how the value changes the color.
-//      * @see ChessBoard.COLORS to see the colors used.
-//      */
-//     static CELLSTATE = {
-//         NORMAL: 0,
-//         FOCUSED:2,
-//         AIMED: 3
-//     };
+    /**
+     * All possible states a cell can be represented.
+     * @see this.showCell function to see how the value changes the color.
+     * @see ChessBoard.COLORS to see the colors used.
+     */
+    static CELLSTATE = {
+        NORMAL: 0,
+        FOCUSED:2,
+        AIMED: 3
+    };
 
-//     /**
-//      * The possible values this.turn can be and what it represents.
-//      * @example this.turn == ChessBoard.TURN.BLACK => black pieces playing
-//      */
-//     static TURN = {
-//         BLACK: 0,
-//         WHITE: 1
-//     }
+    /**
+     * The possible values this.turn can be and what it represents.
+     * @example this.turn == ChessBoard.TURN.BLACK => black pieces playing
+     */
+    static TURN = {
+        BLACK: 0,
+        WHITE: 1
+    }
 
-//     /**
-//      * All spected errors that can happend on this class.
-//      */
-//     static ERRORS = {
-//         INVALIDCLASS: new Error("The class used is not a valid class."),
-//         INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
-//         INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
-//         INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class."),
-//         NOTYOURTURN: new Error("It is not the turn of this piece")
-//     };
+    /**
+     * All spected errors that can happend on this class.
+     */
+    static ERRORS = {
+        INVALIDCLASS: new Error("The class used is not a valid class."),
+        INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
+        INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
+        INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class."),
+        NOTYOURTURN: new Error("It is not the turn of this piece")
+    };
 
-//     constructor(canvasSize) {
-//         this._canvasSize = canvasSize;
-//         this._cellSize = canvasSize / 8;
+    constructor(canvasSize) {
+        this._canvasSize = canvasSize;
+        this._cellSize = canvasSize / 8;
 
-//         // Create the pieces
-//         this._grid = new Array(8); //pieces stored on a 2D array
-//         for(let i = 0; i < 8; i++){
-//             this._grid[i] = new Array(8);
-//         }
-//         this._teamPieces = [new Set(), new Set()]; // Each set stores the pieces of each team
-//         let order = [
-//             ChessBoard.PIECES.rook,
-//             ChessBoard.PIECES.knight,
-//             ChessBoard.PIECES.bishop,
-//             ChessBoard.PIECES.queen,
-//             ChessBoard.PIECES.king,
-//             ChessBoard.PIECES.bishop,
-//             ChessBoard.PIECES.knight,
-//             ChessBoard.PIECES.rook
-//         ];
-//         let correctIndex, piece;
-//         for (let i = 0; i < 8; i++) { // for each column
-//             for (let j = 0; j < 2; j++) { // For each team
-//                 // pawns
-//                 correctIndex = j * 5 + 1; // 1, 6
-//                 piece = new ChessBoard.PIECES["pawn"](j, this.createVector(correctIndex, i), this);
-//                 this._grid[correctIndex][i] = piece;
-//                 this._teamPieces[j].add(piece);
+        // Create the pieces
+        this._grid = new Array(8); //pieces stored on a 2D array
+        for(let i = 0; i < 8; i++){
+            this._grid[i] = new Array(8);
+        }
+        this._teamPieces = [new Set(), new Set()]; // Each set stores the pieces of each team
+        let order = [
+            ChessBoard.PIECES.rook,
+            ChessBoard.PIECES.knight,
+            ChessBoard.PIECES.bishop,
+            ChessBoard.PIECES.queen,
+            ChessBoard.PIECES.king,
+            ChessBoard.PIECES.bishop,
+            ChessBoard.PIECES.knight,
+            ChessBoard.PIECES.rook
+        ];
+        let correctIndex, piece;
+        for (let i = 0; i < 8; i++) { // for each column
+            for (let j = 0; j < 2; j++) { // For each team
+                // pawns
+                correctIndex = j * 5 + 1; // 1, 6
+                piece = new ChessBoard.PIECES["pawn"](j, this.createVector(correctIndex, i), this);
+                this._grid[correctIndex][i] = piece;
+                this._teamPieces[j].add(piece);
 
-//                 // rest of pieces
-//                 correctIndex = j * 7; //0, 7
-//                 piece = new order[i](j, this.createVector(correctIndex, i), this);
-//                 this._grid[correctIndex][i] = piece;
-//                 this._teamPieces[j].add(piece);
-//             }
-//         }
+                // rest of pieces
+                correctIndex = j * 7; //0, 7
+                piece = new order[i](j, this.createVector(correctIndex, i), this);
+                this._grid[correctIndex][i] = piece;
+                this._teamPieces[j].add(piece);
+            }
+        }
 
-//         this._turn = ChessBoard.TURN.WHITE; // Whites always start
+        this._turn = ChessBoard.TURN.WHITE; // Whites always start
 
 //         // User control:
 //         this._mouse = this.createVector(-1, -1);
 //         this.pieceLocked = null;
 //         this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
-//     }
+    }
 
-//     /**
-//      * Represents the board on a p5.Canvas
-//      */
-//     show() {
-//         for(let i = 0; i < 8; i++){
-//             for(let j = 0; j < 8; j++){
-//                 this.showCell(this.createVector(i, j));
-//             }
-//         }
-//     }
+    /**
+     * Represents the board on a p5.Canvas
+     */
+    show() {
+        for(let i = 0; i < 8; i++){
+            for(let j = 0; j < 8; j++){
+                this.showCell(this.createVector(i, j));
+            }
+        }
+    }
 
-//     /**
-//      * Represents the selected cell (0 based) on a p5.Canvas
-//      * @param {int} r index of the desired row
-//      * @param {int} c index of the desired col
-//      */
-//     showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
-//         if (!pos.checkVector()) {
-//             throw ChessBoard.ERRORS.INVALIDVECTOR;
-//         }
+    /**
+     * Represents the selected cell (0 based) on a p5.Canvas
+     * @param {int} r index of the desired row
+     * @param {int} c index of the desired col
+     */
+    // showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
+    //     if (!(pos instanceof ChessVector) || !pos.checkVector()) {
+    //         throw ChessBoard.ERRORS.INVALIDVECTOR;
+    //     }
 
-//         push();
-//         fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
-//         rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
-//         pop();
+    //     push(); // basic cell representation
+    //     fill(...ChessBoard.COLORS[(pos.r + pos.c) % 2]);
+    //     rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+    //     pop();
 
-//         let possiblePiece = this.grid[pos.r][pos.c];
+    //     console.log(pos);
 
-//         if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
-//             let colorIndex;
-//             if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
-//                 colorIndex = aimed;
-//                 if (possiblePiece instanceof ChessPiece) { 
-//                     colorIndex++; // if possibleCell is a piece and aimed => attack
-//                 }
-//             }
-//             else { // focused
-//                 // colorIndex
-//             }
-//             push();
-//             fill(...ChessBoard.COLORS[colorIndex]);
-//             rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
-//             pop();
-//         }
+    //     let possiblePiece = this.grid[pos.r][pos.c];
 
-//         if (possiblePiece instanceof ChessPiece) {
-//             possiblePiece.show();
-//         }
-//     }
+    //     if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
+    //         let colorIndex;
+    //         if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
+    //             colorIndex = aimed;
+    //             if (possiblePiece instanceof ChessPiece) { 
+    //                 colorIndex++; // if possibleCell is a piece and aimed => attack
+    //             }
+    //         }
+    //         else { // focused
+    //             // colorIndex
+    //         }
+    //         push(); // hightlight the cell with the specified color
+    //         fill(...ChessBoard.COLORS[colorIndex]);
+    //         rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+    //         pop();
+    //     }
+
+    //     if (possiblePiece instanceof ChessPiece) {
+    //         possiblePiece.show(); // represent the piece
+    //     }
+    // }
 
 //     // GETTERS AND SETTERS
 
-//     /**
-//      * Return the size of the p5.Canvas
-//      */
-//     get canvasSize() {
-//         return this._canvasSize;
-//     }
+    /**
+     * Return the size of the p5.Canvas
+     */
+    get canvasSize() {
+        return this._canvasSize;
+    }
 
-//     /**
-//      * Return the size of each cell in pixels.
-//      */
-//     get cellSize() {
-//         return this._cellSize;
-//     }
+    /**
+     * Return the size of each cell in pixels.
+     */
+    get cellSize() {
+        return this._cellSize;
+    }
 
-//     /**
-//      * Return the 2D array with the pieces on their positions.
-//      */
-//     get grid() {
-//         return this._grid;
-//     }
+    /**
+     * Return the 2D array with the pieces on their positions.
+     */
+    get grid() {
+        return this._grid;
+    }
 
-//     /**
-//      * Return the pieces of the White team as a Set<ChessPiece>.
-//      */
-//     get whiteTeam() {
-//         return this.getTeam(ChessPiece.TEAM.WHITE);
-//     }
+    /**
+     * Return the pieces of the White team as a Set<ChessPiece>.
+     */
+    get whiteTeam() {
+        return this.getTeam(ChessPiece.TEAM.WHITE);
+    }
 
-//     /**
-//      * Return the pieces of the Black team as a Set<ChessPiece>.
-//      */
-//     get blackTeam() {
-//         return this.getTeam(ChessPiece.TEAM.BLACK);
-//     }
+    /**
+     * Return the pieces of the Black team as a Set<ChessPiece>.
+     */
+    get blackTeam() {
+        return this.getTeam(ChessPiece.TEAM.BLACK);
+    }
 
-//     /**
-//      * Returns the selected team pieces as a Set<ChessPiece>.
-//      * @param {int} index Index of the team, following the ChessPiece.TEAM logic.
-//      * @returns The selected Set.
-//      */
-//     getTeam(index) {
-//         return this._teamPieces[index];
-//     }
+    /**
+     * Returns the selected team pieces as a Set<ChessPiece>.
+     * @param {int} index Index of the team, following the ChessPiece.TEAM logic.
+     * @returns The selected Set.
+     */
+    getTeam(index) {
+        return this._teamPieces[index];
+    }
 
-//     /**
-//      * Current turn.
-//      * @example turn = ChessBoard.TURN.WHITE => turn for white pieces to move
-//      */
-//     get turn() {
-//         return this._turn;
-//     }
+    /**
+     * Current turn.
+     * @example turn = ChessBoard.TURN.WHITE => turn for white pieces to move
+     */
+    get turn() {
+        return this._turn;
+    }
 
-//     /**
-//      * Changes the turn of board.
-//      * @see this.turn for the current turn.
-//      * @see ChessBoard.TURN for possible turns.
-//      */
-//     changeTurn() {
-//         if (this.turn == ChessBoard.TURN.WHITE) {
-//             this._turn = ChessBoard.TURN.BLACK;
-//         }
-//         else {
-//             this._turn = ChessBoard.TURN.WHITE;
-//         }
-//     }
+    /**
+     * Changes the turn of board.
+     * @see this.turn for the current turn.
+     * @see ChessBoard.TURN for possible turns.
+     */
+    changeTurn() {
+        if (this.turn == ChessBoard.TURN.WHITE) {
+            this._turn = ChessBoard.TURN.BLACK;
+        }
+        else {
+            this._turn = ChessBoard.TURN.WHITE;
+        }
+    }
 
 //     /**
 //      * Returns custom vector with the row and cell aimed with the mouse.
@@ -426,29 +428,29 @@
 //         return ChessBoard.movesIterator(moveObj, this);
 //     }
     
-
-//     /**
-//      * Returns the correct properties of the cell at the selected index.
-//      * @param {int} r row position.
-//      * @param {int} c col position.
-//      * @param {ChessBoard} (optional) the board asociated to. This argument allows to fill the cellSize.
-//      * @returns The correct object to send to the ChessPiece classes.
-//      * 
-//      * @todo
-//      */
-//     static createVector(r, c, board=null) {
-//         return new ChessVector(r, c, board);
-//     }
     
-//     /**
-//      * Returns the correct properties of the cell at the selected index.
-//      * @param {int} r row position.
-//      * @param {int} c col position.
-//      * @returns The correct object to send to the ChessPiece classes.
-//      * 
-//      * @todo
-//      */
-//     createVector(r, c) {
-//         return ChessBoard.createVector(r, c, this);
-//     }    
-// }
+    /**
+     * Returns the correct properties of the cell at the selected index.
+     * @param {int} r row position.
+     * @param {int} c col position.
+     * @returns The correct object to send to the ChessPiece classes.
+     * 
+     * @todo
+     */
+    createVector(r, c) {
+        return ChessBoard.createVector(r, c, this);
+    }    
+
+    /**
+     * Returns the correct properties of the cell at the selected index.
+     * @param {int} r row position.
+     * @param {int} c col position.
+     * @param {ChessBoard} (optional) the board asociated to. This argument allows to fill the cellSize.
+     * @returns The correct object to send to the ChessPiece classes.
+     * 
+     * @todo
+     */
+    static createVector(r, c, board=null) {
+        return new ChessVector(r, c, board);
+    }
+}
