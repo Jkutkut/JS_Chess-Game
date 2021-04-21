@@ -2,6 +2,7 @@
  * Class to have the logic of a full chess board
  */
 class ChessBoard {
+    // CONSTANTS
     /**
      * Colors used to represent the cells on the board.
      * 
@@ -63,6 +64,7 @@ class ChessBoard {
         NOTYOURTURN: new Error("It is not the turn of this piece")
     };
 
+    // CODE
     constructor(canvasSize) {
         this._canvasSize = canvasSize;
         this._cellSize = canvasSize / 8;
@@ -158,6 +160,23 @@ class ChessBoard {
         }
     }
 
+    /**
+     * Updates the movement of the currentMoves object based on the given state.
+     * @param {int} state Desired state of the cells.
+     * @see ChessBoard.updateCurrentMoves function for states used
+     * @see ChessBoard.CELLSTATE for the standar states
+     */
+     showMovement(state) {
+        let move, moves = this.movesIterator(this.currentMoves);
+        do {
+            move = moves.next();
+            if (move.done) {
+                return
+            }
+            this.showCell(move.value, state);
+        } while (true)
+    }
+
 //     // GETTERS AND SETTERS
 
     /**
@@ -226,110 +245,98 @@ class ChessBoard {
         }
     }
 
-//     /**
-//      * Returns custom vector with the row and cell aimed with the mouse.
-//      * If position not on board, coordinate = -1.
-//      */
-//     get mouse() {
-//         return this._mouse;
-//     }
+    /**
+     * Returns custom vector with the row and cell aimed with the mouse.
+     * If position not on board, coordinate = -1.
+     */
+    get mouse() {
+        return this._mouse;
+    }
 
-//     /**
-//      * Return the current object with the cell used and the avalible moves for that cell
-//      * @see ChessPiece.getMoves function to see how it is generated
-//      */
-//     get currentMoves() {
-//         return this._currentMoves;
-//     }
+    /**
+     * Return the current object with the cell used and the avalible moves for that cell
+     * @see ChessPiece.getMoves function to see how it is generated
+     */
+    get currentMoves() {
+        return this._currentMoves;
+    }
 
 
-//     updateCurrentMoves() {
-//         if (this.pieceLocked != null) { // if piece locked
-//             console.warn("piece locked")
-//             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-//                 this.showCell(this.currentMoves.cell, ChessBoard.CELLSTATE.FOCUSED);
-//             }
-//             // if (current aimed cell in f(this.currentMoves.moves)){
-//             //     this.showMovement(Normal)
-//             //     this.showCell(aimed cell, focused State)
-//             // }
-//             return;
-//         }
+    // updateCurrentMoves() {
+    //     if (this.pieceLocked != null) { // if piece locked
+    //         console.warn("piece locked")
+    //         if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
+    //             this.showCell(this.currentMoves.cell, ChessBoard.CELLSTATE.FOCUSED);
+    //         }
+    //         // if (current aimed cell in f(this.currentMoves.moves)){
+    //         //     this.showMovement(Normal)
+    //         //     this.showCell(aimed cell, focused State)
+    //         // }
+    //         return;
+    //     }
         
-//         this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
+    //     this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
 
-//         if (!this.mouse.checkVector()) { // if not valid index
-//             return;
-//         }
+    //     if (!this.mouse.checkVector()) { // if not valid index
+    //         return;
+    //     }
 
-//         let possibleCell = this.grid[this.mouse.r][this.mouse.c];
+    //     let possibleCell = this.grid[this.mouse.r][this.mouse.c];
 
-//         if (possibleCell instanceof ChessPiece) {
-//             this._currentMoves = possibleCell.getMoves();
-//         }
+    //     if (possibleCell instanceof ChessPiece) {
+    //         this._currentMoves = possibleCell.getMoves();
+    //     }
+    //     else {
+    //         return;
+    //     }
 
-//         if (this.currentMoves.piece.team != this.turn) {
-//             console.warn("invalid team");
-//             return
-//         }
+    //     if (this.currentMoves.piece.team != this.turn) {
+    //         console.warn("invalid team");
+    //         return
+    //     }
 
-//         this.showMovement(ChessBoard.CELLSTATE.AIMED);
-//     }
+    //     this.showMovement(ChessBoard.CELLSTATE.AIMED);
+    // }
 
-//     /**
-//      * Updates the movement of the currentMoves object based on the given state.
-//      * @param {int} state Desired state of the cells.
-//      * @see ChessBoard.updateCurrentMoves function for states used
-//      * @see ChessBoard.CELLSTATE for the standar states
-//      */
-//     showMovement(state) {
-//         let move, moves = this.movesIterator(this.currentMoves);
-//         do {
-//             move = moves.next();
-//             if (move.done) {
-//                 return
-//             }
-//             this.showCell(move.value, state);
-//         } while (true)
-//     }
+    
 
 //     // CHESS LOGIC
     
-//     /**
-//      * Appends to move the desired piece to the desired location.
-//      * @param {ChessPiece} piece Desired piece.
-//      * @param {Object} v Custom ChessBoard.createVector() object with the desired new position.
-//      * @throws Error if invalid input or not valid turn to move the desired piece.
-//      * @see ChessBoard.createVector() method where the object is generated.
-//      */
-//     movePiece(piece, v)  {
-//         if (!(piece instanceof ChessPiece)) {
-//             throw ChessBoard.ERRORS.INVALIDPIECE;
-//         }
+    /**
+     * Appends to move the desired piece to the desired location.
+     * @param {ChessPiece} piece Desired piece.
+     * @param {Object} v Custom ChessBoard.createVector() object with the desired new position.
+     * @throws Error if invalid input or not valid turn to move the desired piece.
+     * @see ChessBoard.createVector() method where the object is generated.
+     */
+    movePiece(piece, v)  {
+        if (!(piece instanceof ChessPiece)) {
+            throw ChessBoard.ERRORS.INVALIDPIECE;
+        }
 
-//         if(piece.team != this.turn) {
-//             throw ChessBoard.ERRORS.NOTYOURTURN;
-//         }
+        if(piece.team != this.turn) {
+            throw ChessBoard.ERRORS.NOTYOURTURN;
+        }
 
-//         if (!v.checkVector()) {
-//             throw ChessBoard.ERRORS.INVALIDVECTOR;
-//         }
+        if (!(v instanceof ChessVector) || !v.checkVector()) {
+            throw ChessBoard.ERRORS.INVALIDVECTOR;
+        }
 
-//         let oldPos = piece.vector;
-//         this.grid[v.r][v.c] = piece;
-//         this.grid[oldPos.r][oldPos.c] = ChessBoard.EMPTYCELL;
+        let oldPos = piece.vector;
+        this.grid[v.r][v.c] = piece;
+        this.grid[oldPos.r][oldPos.c] = ChessBoard.EMPTYCELL;
 //         console.log("this.grid[oldPos.r][oldPos.c]: " + this.grid[oldPos.r][oldPos.c]);
 //         console.log(oldPos);
 //         console.log(v);
 
-//         piece.vector = v;
+        piece.vector = v;
 
-//         // Update cells on canvas
-//         this.showCell(piece.vector);
-//         this.showCell(oldPos);
+        // Update cells on canvas
+        this.showCell(piece.vector);
+        this.showCell(oldPos);
 
-//         this.changeTurn();
-//     }
+        this.changeTurn();
+    }
 
 
     mouseHandler(mX, mY) {
@@ -382,49 +389,49 @@ class ChessBoard {
 
     
     
-//     // TOOLS
-//     static vectorInPossibleMoves(v, moves) {
-//         let move, movesIte = this.movesIterator(moves);
-//         do {
-//             move = movesIte.next();
-//             if (move.done) {
-//                 return false;
-//             }
-//             console.log(move.value)
-//             if (ChessBoard.equalVectors(move.value, v)){
-//                 return true;
-//             }
-//         } while (true)
-//     }
+    // TOOLS
+    static vectorInPossibleMoves(v, moves) {
+        let move, movesIte = this.movesIterator(moves);
+        do {
+            move = movesIte.next();
+            if (move.done) {
+                return false;
+            }
+            console.log(move.value)
+            if (ChessBoard.equalVectors(move.value, v)){
+                return true;
+            }
+        } while (true)
+    }
 
-//     /**
-//      * Iterable with all the moves of the given moves object.
-//      * @param {obj} moveObj object generated on a chessPiece.getMoves().
-//      * @param {ChessBoard} board (optional) the board assigned to these moves.
-//      * @returns Iterable with the moves
-//      */
-//     static *movesIterator(moveObj, board=null) {
-//         if (!board) {
-//             board = ChessBoard;
-//         }
-//         for (let move of moveObj.moves) { // for each possible move of the current cell
-//             for (let i = 1; i <= move[1]; i++) { // for each amount
-//                 yield board.createVector(
-//                     moveObj.piece.vector.r + i * move[0].r,
-//                     moveObj.piece.vector.c + i * move[0].c
-//                 );
-//             }
-//         }
-//     }
+    /**
+     * Iterable with all the moves of the given moves object.
+     * @param {obj} moveObj object generated on a chessPiece.getMoves().
+     * @param {ChessBoard} board (optional) the board assigned to these moves.
+     * @returns Iterable with the moves
+     */
+    static *movesIterator(moveObj, board=null) {
+        if (!board) {
+            board = ChessBoard;
+        }
+        for (let move of moveObj.moves) { // for each possible move of the current cell
+            for (let i = 1; i <= move[1]; i++) { // for each amount
+                yield board.createVector(
+                    moveObj.piece.vector.r + i * move[0].r,
+                    moveObj.piece.vector.c + i * move[0].c
+                );
+            }
+        }
+    }
     
-//     /**
-//      * Iterable with all the moves of the given moves object.
-//      * @param {obj} moveObj object generated on a chessPiece.getMoves()
-//      * @returns Iterable with the moves
-//      */
-//     movesIterator(moveObj) {
-//         return ChessBoard.movesIterator(moveObj, this);
-//     }
+    /**
+     * Iterable with all the moves of the given moves object.
+     * @param {obj} moveObj object generated on a chessPiece.getMoves()
+     * @returns Iterable with the moves
+     */
+    movesIterator(moveObj) {
+        return ChessBoard.movesIterator(moveObj, this);
+    }
     
     
     /**
