@@ -1,6 +1,6 @@
 class ChessVector {
     static ERROR = {
-        NOTVECTOR = new Error("The input must be a valid ChessVector instance.")
+        NOTVECTOR: new Error("The input must be a valid ChessVector instance.")
     };
 
     constructor(r, c, parent=null) {
