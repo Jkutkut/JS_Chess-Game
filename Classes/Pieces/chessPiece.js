@@ -1,63 +1,63 @@
-// /**
-//  * Class with the logic to create a piece of chess. Designed to use it with the ChessBoard class.
-//  */
-// class ChessPiece {
-//     /**
-//      * All possible pieces names
-//      */
-//     static PIECENAME = [
-//         "bishop",
-//         "king",
-//         "knight",
-//         "pawn",
-//         "queen",
-//         "rook"
-//     ];
+/**
+ * Class with the logic to create a piece of chess. Designed to use it with the ChessBoard class.
+ */
+class ChessPiece {
+    /**
+     * All possible pieces names
+     */
+    static PIECENAME = [
+        "bishop",
+        "king",
+        "knight",
+        "pawn",
+        "queen",
+        "rook"
+    ];
 
-//     /**
-//      * Standar value of each team. Used to define the this.team value.
-//      */
-//     static TEAM = {
-//         BLACK: 0,
-//         WHITE: 1
-//     };
+    /**
+     * Standar value of each team. Used to define the this.team value.
+     */
+    static TEAM = {
+        BLACK: 0,
+        WHITE: 1
+    };
 
-//     /**
-//      * Strings to transforms the current team to a string.
-//      * @see ChessPiece.TEAM
-//      */
-//     static TEAMIMGPREFIX = [
-//         "B",
-//         "W"
-//     ];
+    /**
+     * Strings to transforms the current team to a string.
+     * @see ChessPiece.TEAM
+     */
+    static TEAMIMGPREFIX = [
+        "B",
+        "W"
+    ];
 
-//     /**
-//      * All possible movements allowed (not castling)
-//      */
-//     static PIECESMOVEMENT = {
-//         diagonals: [
-//             {r: 1, c: 1},
-//             {r: 1, c: -1},
-//             {r: -1, c: 1},
-//             {r: -1, c: -1}
-//         ],
-//         lines: [
-//             {r: 1, c: 0},
-//             {r: -1, c: 0},
-//             {r: 0, c: 1},
-//             {r: 0, c: -1}
-//         ],
-//         knight: [
-//             {r: 2, c: 1},
-//             {r: 2, c: -1},
-//             {r: -2, c: 1},
-//             {r: -2, c: -1},
-//             {r: -1, c: 2},
-//             {r:  1, c: 2},
-//             {r: -1, c: -2},
-//             {r: 1, c: -2},
-//         ]
-//     }
+    /**
+     * All possible movements allowed (not castling)
+     */
+    static PIECESMOVEMENT = {
+        diagonals: [
+            {r: 1, c: 1},
+            {r: 1, c: -1},
+            {r: -1, c: 1},
+            {r: -1, c: -1}
+        ],
+        lines: [
+            {r: 1, c: 0},
+            {r: -1, c: 0},
+            {r: 0, c: 1},
+            {r: 0, c: -1}
+        ],
+        knight: [
+            {r: 2, c: 1},
+            {r: 2, c: -1},
+            {r: -2, c: 1},
+            {r: -2, c: -1},
+            {r: -1, c: 2},
+            {r:  1, c: 2},
+            {r: -1, c: -2},
+            {r: 1, c: -2},
+        ]
+    }
 
 //     constructor(team, vector, parent) {
 //         let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
@@ -212,62 +212,62 @@
 //         }
 //         return {piece: this, moves: moves};
 //     }
-// }
+}
 
-// class Bishop extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = ChessPiece.PIECESMOVEMENT.diagonals;
-//         this._amount = Infinity;
-//     }
-// }
+class Bishop extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.diagonals;
+        this._amount = Infinity;
+    }
+}
 
-// class King extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = Array.prototype.concat(
-//             ChessPiece.PIECESMOVEMENT.diagonals,
-//             ChessPiece.PIECESMOVEMENT.lines
-//         );
-//         this._amount = 1;
-//     }
-// }
+class King extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = Array.prototype.concat(
+            ChessPiece.PIECESMOVEMENT.diagonals,
+            ChessPiece.PIECESMOVEMENT.lines
+        );
+        this._amount = 1;
+    }
+}
 
-// class Knight extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = ChessPiece.PIECESMOVEMENT.knight;
-//         this._amount = 1;
-//     }
-// }
+class Knight extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.knight;
+        this._amount = 1;
+    }
+}
 
-// class Pawn extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = [
-//             ChessPiece.PIECESMOVEMENT.lines[this.team],
-//             ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
-//             ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
-//         ];
-//         this._amount = 1;
-//     }
-// }
+class Pawn extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = [
+            ChessPiece.PIECESMOVEMENT.lines[this.team],
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
+        ];
+        this._amount = 1;
+    }
+}
 
-// class Queen extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = Array.prototype.concat(
-//             ChessPiece.PIECESMOVEMENT.diagonals,
-//             ChessPiece.PIECESMOVEMENT.lines
-//         );
-//         this._amount = Infinity;
-//     }
-// }
+class Queen extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = Array.prototype.concat(
+            ChessPiece.PIECESMOVEMENT.diagonals,
+            ChessPiece.PIECESMOVEMENT.lines
+        );
+        this._amount = Infinity;
+    }
+}
 
-// class Rook extends ChessPiece {
-//     constructor(...arg) {
-//         super(...arg);
-//         this._moveDir = ChessPiece.PIECESMOVEMENT.lines;
-//         this._amount = Infinity;
-//     }
-// }
+class Rook extends ChessPiece {
+    constructor(...arg) {
+        super(...arg);
+        this._moveDir = ChessPiece.PIECESMOVEMENT.lines;
+        this._amount = Infinity;
+    }
+}
