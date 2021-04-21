@@ -85,12 +85,12 @@ class ChessPiece {
         this._amount = undefined; // amount of cells a piece can move in each direction
     }
 
-//     /**
-//      * Represents on the p5.Canvas the piece
-//      */
-//     show = function() {
-//         image(this.img, ...this.imgProperties);
-//     }
+    /**
+     * Represents on the p5.Canvas the piece
+     */
+    show = function() {
+        image(this.img, ...this.imgProperties);
+    }
 
 
     // SETTERS AND GETTERS
@@ -102,72 +102,72 @@ class ChessPiece {
         return this._piece;
     }
 
-//     /**
-//      * @returns team code asign to this piece (see TEAM constant)
-//      */
-//     get team() {
-//         return this._team;
-//     }
+    /**
+     * @returns team code asign to this piece (see TEAM constant)
+     */
+    get team() {
+        return this._team;
+    }
 
-//     /**
-//      * @returns String equivalent of the get team method: W for white pieces or B for black pieces
-//      */
-//     get teamName() {
-//         return ChessPiece.TEAMIMGPREFIX[this.team];
-//     }
+    /**
+     * @returns String equivalent of the get team method: W for white pieces or B for black pieces
+     */
+    get teamName() {
+        return ChessPiece.TEAMIMGPREFIX[this.team];
+    }
 
-//     /**
-//      * @returns img linked to the piece
-//      */
-//     get img() {
-//         return this._img;
-//     }
+    /**
+     * @returns img linked to the piece
+     */
+    get img() {
+        return this._img;
+    }
 
-//     /**
-//      * @returns properties needed to represent the img on a P5.Canvas as a array
-//      */
-//     get imgProperties() {
-//         return this._imgProperties;
-//     }
+    /**
+     * @returns properties needed to represent the img on a P5.Canvas as a array
+     */
+    get imgProperties() {
+        return this._imgProperties;
+    }
     
-//     /**
-//      * @returns object with all the properties of the piece (position, size...)
-//      */
-//     get vector() {
-//         return this._vector;
-//     }
+    /**
+     * @returns object with all the properties of the piece (position, size...)
+     */
+    get vector() {
+        return this._vector;
+    }
 
-//     /**
-//      * Overwrites the properties of the piece
-//      * @param {object} p (optional) object with the properties of the piece
-//      */
-//     set vector(p) {
-//         if (p.checkVector()) { // if invalid, error is raised
-//             return
-//         }
-//         this._vector = p;
-//         this._imgProperties = [
-//             this.vector.c * this.vector.size,
-//             this.vector.r * this.vector.size,
-//             this.vector.size,
-//             this.vector.size
-//         ];
-//     }
+    /**
+     * Overwrites the properties of the piece
+     * @param {object} p (optional) object with the properties of the piece
+     */
+    set vector(p) {
+        if (!(p instanceof ChessVector) && !p.checkVector()) { // if invalid, error is raised
+            return
+        }
+        this._vector = p;
+        this._imgProperties = [
+            this.vector.c * this.vector.size,
+            this.vector.r * this.vector.size,
+            this.vector.size,
+            this.vector.size
+        ];
+    }
 
-//     /**
-//      * @returns Directions allow by this piece.
-//      * @see ChessPiece.PIECESMOVEMENT to see the avalible
-//      */
-//     get moveDirections() {
-//         return this._moveDir;
-//     }
+    /**
+     * @returns Directions allow by this piece.
+     * @see ChessPiece.PIECESMOVEMENT to see the avalible
+     */
+    get moveDirections() {
+        return this._moveDir;
+    }
 
-//     /**
-//      * @returns Amount of cells this piece can move on a single move.
-//      */
-//     get amount() {
-//         return this._amount;
-//     }
+    /**
+     * @returns Amount of cells this piece can move on a single move.
+     */
+    get amount() {
+        return this._amount;
+    }
 
 //     /**
 //      * Having on mind the current board, calculate all possible movements for this piece.
