@@ -359,7 +359,7 @@ class ChessBoard {
 //         return mouseChanged;
     }
 
-//     clickHandler() {
+    clickHandler() {
 //         if (!this.mouse.checkVector()) {
 //             return;
 //         }
@@ -385,7 +385,7 @@ class ChessBoard {
 //             // if pieceAimed is in valid spots
 //                 // move
 //         }
-//     }
+    }
 
     
     
