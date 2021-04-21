@@ -155,7 +155,7 @@ class ChessPiece {
     }
 
     /**
-     * @returns Directions allow by this piece.
+     * @returns Directions allow by this piece by default.
      * @see ChessPiece.PIECESMOVEMENT to see the avalible
      */
     get moveDirections() {
@@ -163,58 +163,55 @@ class ChessPiece {
     }
 
     /**
-     * @returns Amount of cells this piece can move on a single move.
+     * @returns Amount of cells this piece can move on a single move by default.
      */
     get amount() {
         return this._amount;
     }
 
-//     /**
-//      * Having on mind the current board, calculate all possible movements for this piece.
-//      * @returns Custom object with the possible moves of this cell.
-//      * @see this.parent with the ChessBoard instance
-//      * @see ChessPiece.PIECESMOVEMENT for moves
-//      */
-//     getMoves(){
-//         let moves = new Set();
-//         let am, pieceV, pieceToCheck;
-//         for (let dir of this.moveDirections) {
-//             am = 0;
-//             // console.log("----");
-//             // console.log(dir);
-//             for(let i = 1; i <= this.amount; i++) {
-//                 pieceV = this._board.createVector(
-//                     this.vector.r + i * dir.r,
-//                     this.vector.c + i * dir.c
-//                 );
-//                 // console.log(pieceV);
-//                 // if (pieceV.r == 2 && (pieceV.c == 0 || pieceV.c == 2)) {
-//                 //     console.log("checked");
-//                 // }
+    /**
+     * Having on mind the current board, calculate all possible movements for this piece.
+     * @returns Custom object with the possible moves of this cell.
+     * @see this.parent with the ChessBoard instance
+     * @see ChessPiece.PIECESMOVEMENT for moves
+     */
+    getMoves(){
+        let moves = new Set();
+        let am, pieceV, pieceToCheck;
+        for (let dir of this.moveDirections) {
+            am = 0;
+            // console.log("----");
+            // console.log(dir);
+            for(let i = 1; i <= this.amount; i++) {
+                pieceV = new ChessVector(
+                    this.vector.r + i * dir.r,
+                    this.vector.c + i * dir.c,
+                    this.parent
+                );
 
-//                 if (!pieceV.checkVector()) {
-//                     break; // if not valid index (out of bounds)
-//                 }
+                if (!pieceV.checkVector()) {
+                    break; // if not valid index (out of bounds)
+                }
 
-//                 pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
-//                 if (pieceToCheck == ChessBoard.EMPTYCELL) {
-//                     am++;
-//                     continue;
-//                 }
-//                 else if (pieceToCheck.team == this.team) {
-//                     break;
-//                 }
-//                 else { // != this.team
-//                     am++;
-//                     break;
-//                 }
-//             }
-//             if (am > 0) {
-//                 moves.add([dir, am]);
-//             }
-//         }
-//         return {piece: this, moves: moves};
-//     }
+                pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+                if (pieceToCheck == ChessBoard.EMPTYCELL) {
+                    am++;
+                    continue;
+                }
+                else if (pieceToCheck.team == this.team) {
+                    break;
+                }
+                else { // != this.team
+                    am++;
+                    break;
+                }
+            }
+            if (am > 0) {
+                moves.add([dir, am]);
+            }
+        }
+        return {piece: this, moves: moves};
+    }
 }
 
 class Bishop extends ChessPiece {
