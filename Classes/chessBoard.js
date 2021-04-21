@@ -400,6 +400,13 @@ class ChessBoard {
     }
     
 
+    /**
+     * Returns the correct properties of the cell at the selected index.
+     * @param {int} r row position.
+     * @param {int} c col position.
+     * @param {ChessBoard} (optional) the board asociated to. This argument allows to fill the cellSize.
+     * @returns The correct object to send to the ChessPiece classes.
+     */
     static createVector(r, c, board=null) {
         return {
             r: r,
