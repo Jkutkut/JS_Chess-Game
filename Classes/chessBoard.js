@@ -246,6 +246,7 @@ class ChessBoard {
     updateCurrentMoves() {
         if (this.pieceLocked != null) { // if piece locked
             console.warn("piece locked")
+            // if ()
             // if (current aimed cell in f(this.currentMoves.moves)){
             //     this.showMovement(Normal)
             //     this.showCell(aimed cell, focused State)
@@ -382,6 +383,30 @@ class ChessBoard {
     
     
     // TOOLS
+    vectorInPossibleMoves(v, moves) {
+        return true;
+    }
+
+    static *movesIterator(moveObj) {
+        for (let move of moveObj.moves) { // for each possible move of the current cell
+            for (let i = 1; i <= move[1]; i++) { // for each amount
+                yield ChessBoard.createVector(
+                    moveObj.piece.vector.r + i * move[0].r,
+                    moveObj.piece.vector.c + i * move[0].c
+                );
+            }
+        }
+        return true;
+    }
+    
+
+    static createVector(r, c, board=null) {
+        return {
+            r: r,
+            c: c,
+            size: (board) ? board.cellSize : 0
+        }
+    }
     
     /**
      * Returns the correct properties of the cell at the selected index.
@@ -389,12 +414,8 @@ class ChessBoard {
      * @param {int} c col position.
      * @returns The correct object to send to the ChessPiece classes.
      */
-    createVector(r, c) {
-        return {
-            r: r,
-            c: c,
-            size: this.cellSize
-        }
+     createVector(r, c) {
+        return ChessBoard.createVector(r, c, this);
     }
 
     /**
