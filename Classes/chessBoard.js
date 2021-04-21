@@ -281,16 +281,14 @@ class ChessBoard {
      * @see ChessBoard.CELLSTATE for the standar states
      */
     showMovement(state) {
-        let cellV;
-        for (let move of this.currentMoves.moves) { // for each possible move of the current cell
-            for (let i = 1; i <= move[1]; i++) { // for each amount
-                cellV = this.createVector(
-                    this.currentMoves.piece.vector.r + i * move[0].r,
-                    this.currentMoves.piece.vector.c + i * move[0].c
-                );
-                this.showCell(cellV, state);
+        let move, moves = this.movesIterator(this.currentMoves);
+        do {
+            move = moves.next();
+            if (move.done) {
+                return
             }
-        }
+            this.showCell(move.value, state);
+        } while (true)
     }
 
     // CHESS LOGIC
@@ -387,16 +385,22 @@ class ChessBoard {
         return true;
     }
 
-    static *movesIterator(moveObj) {
+    static *movesIterator(moveObj, board=null) {
+        if (!board) {
+            board = ChessBoard;
+        }
         for (let move of moveObj.moves) { // for each possible move of the current cell
             for (let i = 1; i <= move[1]; i++) { // for each amount
-                yield ChessBoard.createVector(
+                yield board.createVector(
                     moveObj.piece.vector.r + i * move[0].r,
                     moveObj.piece.vector.c + i * move[0].c
                 );
             }
         }
-        return true;
+    }
+    
+    movesIterator(moveObj) {
+        return ChessBoard.movesIterator(moveObj, this);
     }
     
 
