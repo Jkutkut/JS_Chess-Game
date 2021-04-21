@@ -246,7 +246,9 @@ class ChessBoard {
     updateCurrentMoves() {
         if (this.pieceLocked != null) { // if piece locked
             console.warn("piece locked")
-            // if ()
+            if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
+                this.showCell(this.currentMoves.cell, ChessBoard.CELLSTATE.FOCUSED);
+            }
             // if (current aimed cell in f(this.currentMoves.moves)){
             //     this.showMovement(Normal)
             //     this.showCell(aimed cell, focused State)
@@ -381,8 +383,18 @@ class ChessBoard {
     
     
     // TOOLS
-    vectorInPossibleMoves(v, moves) {
-        return true;
+    static vectorInPossibleMoves(v, moves) {
+        let move, movesIte = this.movesIterator(moves);
+        do {
+            move = movesIte.next();
+            if (move.done) {
+                return false;
+            }
+            console.log(move.value)
+            if (ChessBoard.equalVectors(move.value, v)){
+                return true;
+            }
+        } while (true)
     }
 
     /**
@@ -449,5 +461,17 @@ class ChessBoard {
         return Number.isInteger(position.r) && Number.isInteger(position.c) &&
             position.r >= 0 && position.r < 8 && 
             position.c >= 0 && position.c < 8
+    }
+
+    /**
+     * Check if both vectors are equal.
+     * @param {obj} v1 Vector from ChessPiece.getMoves()
+     * @param {obj} v2 Vector from ChessPiece.getMoves()
+     * @returns Whenever both vectors have the same values stored in them.
+     */
+    static equalVectors(v1, v2) {
+        return v1.r == v2.r &&
+               v1.c == v2.c &&
+               v1.size == v2.size;
     }
 }
