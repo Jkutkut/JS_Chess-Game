@@ -385,6 +385,12 @@ class ChessBoard {
         return true;
     }
 
+    /**
+     * Iterable with all the moves of the given moves object.
+     * @param {obj} moveObj object generated on a chessPiece.getMoves().
+     * @param {ChessBoard} board (optional) the board assigned to these moves.
+     * @returns Iterable with the moves
+     */
     static *movesIterator(moveObj, board=null) {
         if (!board) {
             board = ChessBoard;
@@ -399,6 +405,11 @@ class ChessBoard {
         }
     }
     
+    /**
+     * Iterable with all the moves of the given moves object.
+     * @param {obj} moveObj object generated on a chessPiece.getMoves()
+     * @returns Iterable with the moves
+     */
     movesIterator(moveObj) {
         return ChessBoard.movesIterator(moveObj, this);
     }
