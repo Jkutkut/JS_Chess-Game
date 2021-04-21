@@ -59,29 +59,31 @@ class ChessPiece {
         ]
     }
 
-//     constructor(team, vector, parent) {
-//         let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
+    constructor(team, vector, parent) {
+        let piece = this.constructor.name.toLowerCase(); // get Class name used to invoque this constructor (lowercase)
         
-//         // Check correct input
-//         if (!ChessPiece.PIECENAME.includes(piece)) {
-//             throw ChessBoard.ERRORS.INVALIDCLASS;
-//         }
-//         if (team != ChessPiece.TEAM.WHITE && team != ChessPiece.TEAM.BLACK) {
-//             throw ChessBoard.ERRORS.INVALIDTEAM;
-//         }
+        // Check correct input
+        if (!ChessPiece.PIECENAME.includes(piece)) {
+            throw ChessBoard.ERRORS.INVALIDCLASS;
+        }
+        if (team != ChessPiece.TEAM.WHITE && team != ChessPiece.TEAM.BLACK) {
+            throw ChessBoard.ERRORS.INVALIDTEAM;
+        }
 
-//         this._piece = piece;
-//         this._team = team;
-//         this._board = parent;
+        this._piece = piece;
+        this._team = team;
 
-//         this._img = imgs[this.piece + this.teamName];
-//         this._imgProperties = undefined;
+        // img
+        this._img = imgs[this.piece + this.teamName];
+        this._imgProperties = undefined;
 
-//         this.vector = vector; // also updates this._imgProperties
+        this.vector = vector; // also updates this._imgProperties
 
-//         this._moveDir = undefined; // possible directions to go (from ChessPiece.Piecesmovement)
-//         this._amount = undefined; // amount of cells a piece can move in each direction
-//     }
+        this._board = parent;
+
+        this._moveDir = undefined; // possible directions to go (from ChessPiece.Piecesmovement)
+        this._amount = undefined; // amount of cells a piece can move in each direction
+    }
 
 //     /**
 //      * Represents on the p5.Canvas the piece
@@ -91,13 +93,14 @@ class ChessPiece {
 //     }
 
 
-//     // SETTERS AND GETTERS
-//     /**
-//      * @returns Name of the class used to create this instance. Note that the name is lowerCased.
-//      */
-//     get piece() {
-//         return this._piece;
-//     }
+    // SETTERS AND GETTERS
+    /**
+     * @returns Name of the class used to create this instance. 
+     * @see Note that the name is lowerCased.
+     */
+    get piece() {
+        return this._piece;
+    }
 
 //     /**
 //      * @returns team code asign to this piece (see TEAM constant)
