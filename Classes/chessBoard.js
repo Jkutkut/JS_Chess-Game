@@ -104,8 +104,8 @@ class ChessBoard {
 
         this._turn = ChessBoard.TURN.WHITE; // Whites always start
 
-//         // User control:
-//         this._mouse = this.createVector(-1, -1);
+        // User control:
+        this._mouse = this.createVector(-1, -1);
 //         this.pieceLocked = null;
 //         this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
     }
@@ -340,23 +340,23 @@ class ChessBoard {
 
 
     mouseHandler(mX, mY) {
-//         // get new indices
-//         let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
-//         let newC = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
-//         let mouseChanged = false; // Condition to see if mouse has changed position since last call
-//         if (newR != this.mouse.r) {
-//             this._mouse.r = newR;
-//             mouseChanged = true;
-//         }
-//         if (newC != this.mouse.c) {
-//             this._mouse.c = newC;
-//             mouseChanged = true;
-//         }
+        // get new indices
+        let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
+        let newC = (mX < this.canvasSize) ? Math.floor(mX / this.cellSize) : -1;
+        let mouseChanged = false; // Condition to see if mouse has changed position since last call
+        if (newR != this.mouse.r) {
+            this._mouse.r = newR;
+            mouseChanged = true;
+        }
+        if (newC != this.mouse.c) {
+            this._mouse.c = newC;
+            mouseChanged = true;
+        }
 
-//         // if (mouseChanged) {
-//         //     this.updateCurrentMoves();
-//         // }
-//         return mouseChanged;
+        // if (mouseChanged) {
+        //     this.updateCurrentMoves();
+        // }
+        return mouseChanged;
     }
 
     clickHandler() {
