@@ -106,8 +106,8 @@ class ChessBoard {
 
         // User control:
         this._mouse = this.createVector(-1, -1);
+        this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
 //         this.pieceLocked = null;
-//         this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
     }
 
     /**
@@ -262,7 +262,7 @@ class ChessBoard {
     }
 
 
-    // updateCurrentMoves() {
+    updateCurrentMoves() {
     //     if (this.pieceLocked != null) { // if piece locked
     //         console.warn("piece locked")
     //         if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
@@ -275,28 +275,29 @@ class ChessBoard {
     //         return;
     //     }
         
-    //     this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
+        this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
 
-    //     if (!this.mouse.checkVector()) { // if not valid index
-    //         return;
-    //     }
+        if (!this.mouse.checkVector()) { // if not valid index
+            this._currentMoves.moves.clear(); // if not locked and on invalid position, reset the valid moves
+            return;
+        }
 
-    //     let possibleCell = this.grid[this.mouse.r][this.mouse.c];
+        let possibleCell = this.grid[this.mouse.r][this.mouse.c];
 
-    //     if (possibleCell instanceof ChessPiece) {
-    //         this._currentMoves = possibleCell.getMoves();
-    //     }
-    //     else {
-    //         return;
-    //     }
+        if (possibleCell instanceof ChessPiece) {
+            this._currentMoves = possibleCell.getMoves();
+        }
+        else {
+            return;
+        }
 
-    //     if (this.currentMoves.piece.team != this.turn) {
-    //         console.warn("invalid team");
-    //         return
-    //     }
+        if (this.currentMoves.piece.team != this.turn) {
+            console.warn("invalid team");
+            return
+        }
 
-    //     this.showMovement(ChessBoard.CELLSTATE.AIMED);
-    // }
+        this.showMovement(ChessBoard.CELLSTATE.AIMED);
+    }
 
     
 
@@ -353,9 +354,9 @@ class ChessBoard {
             mouseChanged = true;
         }
 
-        // if (mouseChanged) {
-        //     this.updateCurrentMoves();
-        // }
+        if (mouseChanged) {
+            this.updateCurrentMoves();
+        }
         return mouseChanged;
     }
 
