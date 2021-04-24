@@ -338,6 +338,12 @@ class ChessBoard {
     }
 
 
+    /**
+     * Analyses the position of the mouse.
+     * @param {int} mX mouse position in pixels.
+     * @param {int} mY mouse vertical position in pixels.
+     * @returns (boolean) whenever the cell aimed has changed
+     */
     mouseHandler(mX, mY) {
         // get new indices
         let newR = (mY < this.canvasSize) ? Math.floor(mY / this.cellSize) : -1;
