@@ -10,16 +10,24 @@ class ChessVector {
     }
 
     /**
+     * Checks if both vectors have the same row and col values.
+     * @returns Result result
+     */
+     sameCoordinates(v) {
+        if (!(v instanceof ChessVector)) {
+            throw ChessVector.ERROR.NOTVECTOR;
+        }
+        return this.r == v.r && this.c == v.c;
+    }
+    
+    /**
      * Check if both vectors are equal.
      * @param {obj} v1 Vector from ChessPiece.getMoves()
      * @param {obj} v2 Vector from ChessPiece.getMoves()
      * @returns Whenever both vectors have the same values stored in them.
      */
     equal(v) {
-        if (!(v instanceof ChessVector)) {
-            throw ChessVector.ERROR.NOTVECTOR;
-        }
-        return this.r == v.r && this.c == v.c && this.size == v.size;
+        return this.sameCoordinates() && this.size == v.size;
     }
 
     /**
