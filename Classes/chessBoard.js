@@ -139,16 +139,12 @@ class ChessBoard {
         let possiblePiece = this.grid[pos.r][pos.c];
 
         if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
-            let colorIndex;
-            if (aimed == ChessBoard.CELLSTATE.AIMED) { // aim or attack
-                colorIndex = aimed;
-                if (possiblePiece instanceof ChessPiece) { 
-                    colorIndex++; // if possibleCell is a piece and aimed => attack
-                }
+            let colorIndex = aimed;
+
+            if (aimed == ChessBoard.CELLSTATE.AIMED && possiblePiece instanceof ChessPiece) {
+                colorIndex++; // if possibleCell is a piece and aimed => attack
             }
-            else { // focused
-                colorIndex = aimed;
-            }
+            
             push(); // hightlight the cell with the specified color
             fill(...ChessBoard.COLORS[colorIndex]);
             rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
@@ -237,6 +233,15 @@ class ChessBoard {
      * @see ChessBoard.TURN for possible turns.
      */
     changeTurn() {
+        // Update cells on canvas
+        this.showCell(this.mouse);
+        this.showMovement(ChessBoard.CELLSTATE.NORMAL);
+
+        this.pieceLocked = null;
+        this.currentMoves.moves.clear();
+        this.mouse.r = -1;
+        this.mouse.c = -1;
+
         if (this.turn == ChessBoard.TURN.WHITE) {
             this._turn = ChessBoard.TURN.BLACK;
         }
@@ -288,16 +293,8 @@ class ChessBoard {
         this.showMovement(ChessBoard.CELLSTATE.AIMED);
 
         if (this.pieceLocked != null) { // if piece locked
-            console.warn("piece locked")
-            // if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-            //     this.showCell(this.currentMoves.cell, ChessBoard.CELLSTATE.FOCUSED);
-            // }
-            // if (current aimed cell in f(this.currentMoves.moves)){
-            //     this.showMovement(Normal)
-            //     this.showCell(aimed cell, focused State)
-            // }
+            console.warn("piece locked");
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-                // this.showCell(this.mouse, ChessBoard.COLORS.NORMAL);
                 this.showCell(this.mouse, ChessBoard.CELLSTATE.FOCUSED);
                 console.log("Aimed");
             }
@@ -335,10 +332,8 @@ class ChessBoard {
 
         piece.vector = v;
 
-        // Update cells on canvas
-        this.showCell(piece.vector);
-        this.showCell(oldPos);
 
+        this.showCell(oldPos);
         this.changeTurn();
     }
 
@@ -383,7 +378,7 @@ class ChessBoard {
         }
         else { // If piece selected
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-                this.movePiece(pieceAimed, this.mouse);
+                this.movePiece(this.pieceLocked, this.mouse);
             }
             if (pieceAimed == ChessBoard.EMPTYCELL) {
                 this.pieceLocked = null;
