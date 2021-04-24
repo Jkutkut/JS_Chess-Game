@@ -170,6 +170,13 @@ class ChessPiece {
     }
 
     /**
+     * Get current parent
+     */
+    get parent() {
+        return this._board;
+    }
+
+    /**
      * Having on mind the current board, calculate all possible movements for this piece.
      * @returns Custom object with the possible moves of this cell.
      * @see this.parent with the ChessBoard instance
