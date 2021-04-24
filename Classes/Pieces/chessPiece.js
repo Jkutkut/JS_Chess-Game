@@ -285,12 +285,12 @@ class Pawn extends ChessPiece {
                 }
             }
             if (am > 0) {
-                defMoves.add([dir, am]);
+                defMoves.moves.add([dir, am]);
             }
         }
         // double distance on firt move
         // En passant
-
+        return defMoves;
     }
 }
 
