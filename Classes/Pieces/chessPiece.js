@@ -145,7 +145,7 @@ class ChessPiece {
         if (!(p instanceof ChessVector) || !p.checkVector()) { // if invalid, error is raised
             return
         }
-        this._vector = p;
+        this._vector = p.copy();
         this._imgProperties = [
             this.vector.c * this.vector.size,
             this.vector.r * this.vector.size,

@@ -40,4 +40,20 @@ class ChessVector {
             this.r >= 0 && this.r < 8 && 
             this.c >= 0 && this.c < 8;
     }
+
+    /**
+     * @returns a new vector with the same poperties.
+     */
+    clone () {
+        let v = new ChessVector(this.r, this.c);
+        v.size = this.size;
+        return v;
+    }
+
+    /**
+     * @returns a new vector with the same properties.
+     */
+    copy() {
+        return this.clone();
+    }
 }

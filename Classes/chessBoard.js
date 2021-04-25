@@ -128,6 +128,7 @@ class ChessBoard {
      */
     showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
         if (!(pos instanceof ChessVector) || !pos.checkVector()) {
+            console.warn(pos);
             throw new Error(ChessBoard.ERRORS.INVALIDVECTOR);
         }
 
@@ -276,13 +277,13 @@ class ChessBoard {
          */
 
         if (!this.pieceLocked) { // if piece not locked => selecting piece
-            this.showMovement(ChessBoard.CELLSTATE.NORMAL);
-
             if (!this.mouse.checkVector()) { // if not valid index
-                this.showMovement(ChessBoard.CELLSTATE.NORMAL);
+                // this.showMovement(ChessBoard.CELLSTATE.NORMAL);
                 this._currentMoves.moves.clear(); // if not locked and on invalid position, reset the valid moves
                 return;
             }
+
+            this.showMovement(ChessBoard.CELLSTATE.NORMAL);
 
             let possibleCell = this.grid[this.mouse.r][this.mouse.c];
 
@@ -335,6 +336,11 @@ class ChessBoard {
         }
 
         let oldPos = piece.vector;
+
+        console.log("moved piece from: ");
+        console.log(oldPos);
+        console.log("to: ");
+        console.log(v);
 
         // Update cells on canvas
         this.showMovement(ChessBoard.CELLSTATE.NORMAL);
