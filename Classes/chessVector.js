@@ -1,6 +1,6 @@
 class ChessVector {
     static ERROR = {
-        NOTVECTOR: new Error("The input must be a valid ChessVector instance.")
+        NOTVECTOR: "The input must be a valid ChessVector instance."
     };
 
     constructor(r, c, parent=null) {
@@ -15,7 +15,7 @@ class ChessVector {
      */
      sameCoordinates(v) {
         if (!(v instanceof ChessVector)) {
-            throw ChessVector.ERROR.NOTVECTOR;
+            throw new Error(ChessVector.ERROR.NOTVECTOR);
         }
         return this.r == v.r && this.c == v.c;
     }

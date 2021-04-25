@@ -57,11 +57,11 @@ class ChessBoard {
      * All spected errors that can happend on this class.
      */
     static ERRORS = {
-        INVALIDCLASS: new Error("The class used is not a valid class."),
-        INVALIDPIECE: new Error("The piece must be a valid ChessPiece instance."),
-        INVALIDTEAM: new Error("The team selected is not valid. Use static values to selected it."),
-        INVALIDVECTOR: new Error("The input must be a valid vector. Please use the method createVector on the ChessBoard class."),
-        NOTYOURTURN: new Error("It is not the turn of this piece")
+        INVALIDCLASS: "The class used is not a valid class.",
+        INVALIDPIECE: "The piece must be a valid ChessPiece instance.",
+        INVALIDTEAM: "The team selected is not valid. Use static values to selected it.",
+        INVALIDVECTOR: "The input must be a valid vector. Please use the method createVector on the ChessBoard class.",
+        NOTYOURTURN: "It is not the turn of this piece"
     };
 
     // CODE
@@ -128,7 +128,7 @@ class ChessBoard {
      */
     showCell(pos, aimed=ChessBoard.CELLSTATE.NORMAL) {
         if (!(pos instanceof ChessVector) || !pos.checkVector()) {
-            throw ChessBoard.ERRORS.INVALIDVECTOR;
+            throw new Error(ChessBoard.ERRORS.INVALIDVECTOR);
         }
 
         push(); // basic cell representation
@@ -323,15 +323,15 @@ class ChessBoard {
      */
     movePiece(piece, v)  {
         if (!(piece instanceof ChessPiece)) {
-            throw ChessBoard.ERRORS.INVALIDPIECE;
+            throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
         }
 
         if(piece.team != this.turn) {
-            throw ChessBoard.ERRORS.NOTYOURTURN;
+            throw new Error(ChessBoard.ERRORS.NOTYOURTURN);
         }
 
         if (!(v instanceof ChessVector) || !v.checkVector()) {
-            throw ChessBoard.ERRORS.INVALIDVECTOR;
+            throw new Error(ChessBoard.ERRORS.INVALIDVECTOR);
         }
 
         let oldPos = piece.vector;
