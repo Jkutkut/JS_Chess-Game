@@ -252,21 +252,28 @@ class Pawn extends ChessPiece {
     constructor(...arg) {
         super(...arg);
         this._moveDir = [
-            ChessPiece.PIECESMOVEMENT.lines[this.team]
+            ChessPiece.PIECESMOVEMENT.lines[this.team],
+            //attack moves
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
+            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
         ];
         this._amount = 1;
 
-        this.killMoves = [
-            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
-            ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
-        ]
+        // this.killMoves = [
+        //     ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2],
+        //     ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
+        // ]
     }
 
     getMoves() {
-        let am, pieceV, pieceToCheck;
-        // let defMoves = ChessPiece.prototype.getMoves.call(this);
+        let pieceV, pieceToCheck;
         let moves = new Set();
 
+        let conditions = [
+            function(pieceToCheck) {return pieceToCheck == ChessBoard.EMPTYCELL}, // basic move
+            function(pieceToCheck) {return pieceToCheck != ChessBoard.EMPTYCELL && pieceToCheck.team != this.team} // attack
+        ]
+        let currentIndex = 0;
         for (let dir of this.moveDirections) {
             pieceV = new ChessVector(
                 this.vector.r + dir.r,
@@ -279,29 +286,31 @@ class Pawn extends ChessPiece {
             }
 
             pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
-            if (pieceToCheck == ChessBoard.EMPTYCELL) {
+            if (conditions[currentIndex++](pieceToCheck)) {
                 moves.add([dir, 1]);
             }
+
+            if (currentIndex == 2) {currentIndex--;}
             
         }
 
 
-        for (let dir of this.killMoves) {
-            pieceV = new ChessVector(
-                this.vector.r + dir.r,
-                this.vector.c + dir.c,
-                this.parent
-            );
+        // for (let dir of this.killMoves) {
+        //     pieceV = new ChessVector(
+        //         this.vector.r + dir.r,
+        //         this.vector.c + dir.c,
+        //         this.parent
+        //     );
 
-            if (!pieceV.checkVector()) {
-                break; // if not valid index (out of bounds)
-            }
+        //     if (!pieceV.checkVector()) {
+        //         break; // if not valid index (out of bounds)
+        //     }
 
-            pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
-            if (pieceToCheck != ChessBoard.EMPTYCELL && pieceToCheck.team != this.team) { // != this.team
-                moves.add([dir, 1]);
-            }
-        }
+        //     pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+        //     if (conditions[1](pieceToCheck)) { // != this.team
+        //         moves.add([dir, 1]);
+        //     }
+        // }
         // double distance on firt move
         // En passant
         return {piece: this, moves: moves};
