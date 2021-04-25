@@ -143,7 +143,7 @@ class ChessPiece {
      */
     set vector(p) {
         if (!(p instanceof ChessVector) || !p.checkVector()) { // if invalid, error is raised
-            return
+            throw new Error(ChessBoard.ERRORS.INVALIDVECTOR);
         }
         this._vector = p.copy();
         this._imgProperties = [
@@ -249,8 +249,9 @@ class Knight extends ChessPiece {
 }
 
 class Pawn extends ChessPiece {
-    constructor(...arg) {
+    constructor(...arg) {        
         super(...arg);
+        
         this._moveDir = [
             ChessPiece.PIECESMOVEMENT.lines[this.team],
             //attack moves
@@ -262,7 +263,7 @@ class Pawn extends ChessPiece {
             function(pieceToCheck) {return pieceToCheck != ChessBoard.EMPTYCELL && pieceToCheck.team != this.team} // attack
         ];
 
-        this._amount = 1;
+        this._prevV = undefined;
     }
 
     getMoves() {
@@ -288,7 +289,6 @@ class Pawn extends ChessPiece {
         }
 
         // double distance on firt move
-
         if (this.team == ChessPiece.TEAM.WHITE && this.vector.r == 6 ||
             this.team == ChessPiece.TEAM.BLACK && this.vector.r == 1)
         {
@@ -304,8 +304,28 @@ class Pawn extends ChessPiece {
                 moves.add([{r: 2 * this.moveDirections[0].r, c: 0}, 1]);
             }
         }
+
         // En passant
+        
+
         return {piece: this, moves: moves};
+    }
+
+    get vector() {
+        return super.vector;
+    }
+
+    set vector(p) {
+        this._prevV = this.vector;
+        super.vector = p;
+
+        if (this._prevV == undefined || !(p instanceof ChessVector) || !p.checkVector()) {
+            return;
+        }
+        let dif = Math.abs(this._prevV.r - p.r);
+        if (dif == 2) {
+            console.warn("en passant!");
+        }
     }
 }
 
