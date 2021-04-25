@@ -268,30 +268,21 @@ class Pawn extends ChessPiece {
         let moves = new Set();
 
         for (let dir of this.moveDirections) {
-            am = 0;
-            for(let i = 1; i <= this.amount; i++) {
-                pieceV = new ChessVector(
-                    this.vector.r + i * dir.r,
-                    this.vector.c + i * dir.c,
-                    this.parent
-                );
+            pieceV = new ChessVector(
+                this.vector.r + dir.r,
+                this.vector.c + dir.c,
+                this.parent
+            );
 
-                if (!pieceV.checkVector()) {
-                    break; // if not valid index (out of bounds)
-                }
+            if (!pieceV.checkVector()) {
+                break; // if not valid index (out of bounds)
+            }
 
-                pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
-                if (pieceToCheck == ChessBoard.EMPTYCELL) {
-                    am++;
-                    continue;
-                }
-                else if (pieceToCheck.team == this.team) {
-                    break;
-                }
+            pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+            if (pieceToCheck == ChessBoard.EMPTYCELL) {
+                moves.add([dir, 1]);
             }
-            if (am > 0) {
-                moves.add([dir, am]);
-            }
+            
         }
 
 
