@@ -259,18 +259,19 @@ class Pawn extends ChessPiece {
             ChessPiece.PIECESMOVEMENT.diagonals[this.team * 2 + 1]
         ];
         this._conditions = [
-            function(pieceToCheck) {return pieceToCheck == ChessBoard.EMPTYCELL}, // basic move
-            function(pieceToCheck) {return pieceToCheck != ChessBoard.EMPTYCELL && pieceToCheck.team != this.team} // attack
+            function(pieceToCheck, p) {return pieceToCheck == ChessBoard.EMPTYCELL}, // basic move
+            function(pieceToCheck, p) {return pieceToCheck != ChessBoard.EMPTYCELL && pieceToCheck.team != p.team} // attack
         ];
 
         this._prevV = undefined;
+        this._enpassant = false;
     }
 
     getMoves() {
-        let pieceV, pieceToCheck, conditionIndex = 0;
+        let dir, pieceV, pieceToCheck, conditionIndex = 0;
         let moves = new Set();
         
-        for (let dir of this.moveDirections) {
+        for (dir of this.moveDirections) {
             pieceV = new ChessVector(
                 this.vector.r + dir.r,
                 this.vector.c + dir.c,
@@ -282,13 +283,13 @@ class Pawn extends ChessPiece {
             }
 
             pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
-            if (this._conditions[conditionIndex](pieceToCheck)) {
+            if (this._conditions[conditionIndex](pieceToCheck, this)) {
                 moves.add([dir, 1]);
             }
             conditionIndex = 1; // from now on, use the 2º condition
         }
 
-        // double distance on firt move
+        // double distance on first move
         if (this.team == ChessPiece.TEAM.WHITE && this.vector.r == 6 ||
             this.team == ChessPiece.TEAM.BLACK && this.vector.r == 1)
         {
@@ -300,13 +301,40 @@ class Pawn extends ChessPiece {
 
             pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
 
-            if (this._conditions[0](pieceToCheck)) {
+            if (this._conditions[0](pieceToCheck, this)) {
                 moves.add([{r: 2 * this.moveDirections[0].r, c: 0}, 1]);
             }
         }
 
         // En passant
-        
+        let emptyCell;
+        for (let i = 1; i <= 2; i++) {
+            dir = this.moveDirections[i];
+
+            pieceV = new ChessVector(
+                this.vector.r + dir.r,
+                this.vector.c + dir.c,
+                this.parent
+            );
+
+            if (!pieceV.checkVector()) {
+                continue; // if not valid index (out of bounds)
+            }
+
+            emptyCell = this._board.grid[pieceV.r][pieceV.c];
+
+            pieceV = new ChessVector(
+                this.vector.r,
+                this.vector.c + dir.c,
+                this.parent
+            );
+
+            pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+
+            if (this._conditions[0](emptyCell, this) && this._conditions[1](pieceToCheck, this) && pieceToCheck._enpassant) {
+                moves.add([dir, 1]);
+            }
+        }
 
         return {piece: this, moves: moves};
     }
@@ -324,7 +352,10 @@ class Pawn extends ChessPiece {
         }
         let dif = Math.abs(this._prevV.r - p.r);
         if (dif == 2) {
-            console.warn("en passant!");
+            this._enpassant = true;
+        }
+        else {
+            this._enpassant = false;
         }
     }
 }
