@@ -288,6 +288,22 @@ class Pawn extends ChessPiece {
         }
 
         // double distance on firt move
+
+        if (this.team == ChessPiece.TEAM.WHITE && this.vector.r == 6 ||
+            this.team == ChessPiece.TEAM.BLACK && this.vector.r == 1)
+        {
+            pieceV = new ChessVector(
+                this.vector.r + 2 * this.moveDirections[0].r,
+                this.vector.c,
+                this.parent
+            );
+
+            pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
+
+            if (this._conditions[0](pieceToCheck)) {
+                moves.add([{r: 2 * this.moveDirections[0].r, c: 0}, 1]);
+            }
+        }
         // En passant
         return {piece: this, moves: moves};
     }
