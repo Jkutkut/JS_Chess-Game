@@ -227,25 +227,25 @@ class ChessBoard {
         return this._turn;
     }
 
-    /**
-     * Changes the turn of board.
-     * @see this.turn for the current turn.
-     * @see ChessBoard.TURN for possible turns.
-     */
+    // /**
+    //  * Changes the turn of board.
+    //  * @see this.turn for the current turn.
+    //  * @see ChessBoard.TURN for possible turns.
+    //  */
     changeTurn() {
         
         console.log(this.currentMoves);
 
         this.pieceLocked = null;
         this.currentMoves.moves.clear();
-        this.mouse.r = -1;
-        this.mouse.c = -1;
 
         if (this.turn == ChessBoard.TURN.WHITE) {
             this._turn = ChessBoard.TURN.BLACK;
+            this.currentMoves.piece = {team: ChessBoard.TURN.BLACK};
         }
         else {
             this._turn = ChessBoard.TURN.WHITE;
+            this.currentMoves.piece = {team: ChessBoard.TURN.WHITE};
         }
     }
 
@@ -378,7 +378,7 @@ class ChessBoard {
 
         piece.vector = v;
 
-        this.showCell(oldPos);
+        this.showCell(oldPos, ChessBoard.CELLSTATE.NORMAL);
         this.showCell(v, ChessBoard.CELLSTATE.NORMAL);
         this.changeTurn();
     }
@@ -453,10 +453,6 @@ class ChessBoard {
             if (move.done) {
                 return false;
             }
-            console.log("--------");
-            console.log(move.value)
-            console.log(v)
-            console.log("--------");
             if (v.sameCoordinates(move.value)){
                 return true;
             }
