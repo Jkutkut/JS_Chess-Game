@@ -107,7 +107,7 @@ class ChessBoard {
         // User control:
         this._mouse = this.createVector(-1, -1);
         this._currentMoves = {piece: {team: ChessBoard.TURN.WHITE}, moves: new Set()};
-        this.pieceLocked = null;
+        this.pieceLocked = false;
     }
 
     /**
@@ -164,6 +164,7 @@ class ChessBoard {
      */
      showMovement(state) {
         let move, moves = this.movesIterator(this.currentMoves);
+        console.log("printing on state: " + state);
         do {
             move = moves.next();
             if (move.done) {
@@ -236,7 +237,7 @@ class ChessBoard {
         
         console.log(this.currentMoves);
 
-        this.pieceLocked = null;
+        this.pieceLocked = false;
         this.currentMoves.moves.clear();
 
         if (this.turn == ChessBoard.TURN.WHITE) {
@@ -274,7 +275,7 @@ class ChessBoard {
          *  piece selected and aiming piece
          */
 
-        if (this.pieceLocked == null) { // if piece not locked => selecting piece
+        if (!this.pieceLocked) { // if piece not locked => selecting piece
             this.showMovement(ChessBoard.CELLSTATE.NORMAL);
 
             if (!this.mouse.checkVector()) { // if not valid index
@@ -289,6 +290,7 @@ class ChessBoard {
                 // if cell contains a piece from the team playing now
                 this._currentMoves = possibleCell.getMoves();
                 console.log("selecting");
+                console.log(this.currentMoves);
             }
             else {
                 return;
@@ -306,42 +308,6 @@ class ChessBoard {
 
             }
         }
-
-
-
-
-        // this.showMovement(ChessBoard.CELLSTATE.NORMAL); // clear previous state
-
-        // if (!this.mouse.checkVector()) { // if not valid index
-        //     this._currentMoves.moves.clear(); // if not locked and on invalid position, reset the valid moves
-        //     return;
-        // }
-
-        // let possibleCell = this.grid[this.mouse.r][this.mouse.c];
-
-        // if (possibleCell instanceof ChessPiece) {
-        //     this._currentMoves = possibleCell.getMoves();
-        // }
-        // else if (this.pieceLocked == null){
-        //     console.warn("no piece locked");
-        //     return;
-        // }
-
-        // if (this.currentMoves.piece.team != this.turn) {
-        //     console.warn("invalid team");
-        //     return
-        // }
-
-        // this.showMovement(ChessBoard.CELLSTATE.AIMED);
-
-        // if (this.pieceLocked != null) { // if piece locked
-        //     console.warn("piece locked");
-        //     if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-        //         this.showCell(this.mouse, ChessBoard.CELLSTATE.FOCUSED);
-        //         console.log("Aimed");
-        //     }
-        //     return;
-        // }
     }
 
     
@@ -423,23 +389,23 @@ class ChessBoard {
             }
             if (pieceAimed.team == this.turn) {
                 // if selecting a piece from the team that plays now
-                this.pieceLocked = pieceAimed;
+                //updateMoves?
+                this.pieceLocked = true;
                 console.log("click");
-                console.log(pieceAimed.vector)
+                console.log(pieceAimed.vector);
             }   
         }
         else { // If piece selected
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
-                this.movePiece(this.pieceLocked, this.mouse);
+                this.movePiece(this.currentMoves.piece, this.mouse);
             }
             if (pieceAimed == ChessBoard.EMPTYCELL) {
-                this.pieceLocked = null;
+                this.pieceLocked = false;
+                this.currentMoves.moves.clear();
                 console.info("focus lost");
                 this.updateCurrentMoves();
                 return;
             }
-            // if pieceAimed is in valid spots
-                // move
         }
     }
 
@@ -451,9 +417,11 @@ class ChessBoard {
         do {
             move = movesIte.next();
             if (move.done) {
+                console.log("mouse NOT on pos moves");
                 return false;
             }
             if (v.sameCoordinates(move.value)){
+                console.log("mouse on pos moves");
                 return true;
             }
         } while (true)
