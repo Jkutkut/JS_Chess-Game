@@ -187,8 +187,6 @@ class ChessPiece {
         let am, pieceV, pieceToCheck;
         for (let dir of this.moveDirections) {
             am = 0;
-            // console.log("----");
-            // console.log(dir);
             for(let i = 1; i <= this.amount; i++) {
                 pieceV = new ChessVector(
                     this.vector.r + i * dir.r,
