@@ -166,7 +166,6 @@ class ChessBoard {
      */
      showMovement(state) {
         let move, moves = this.movesIterator(this.currentMoves);
-        console.log("printing on state: " + state);
         do {
             move = moves.next();
             if (move.done) {
@@ -236,9 +235,6 @@ class ChessBoard {
     //  * @see ChessBoard.TURN for possible turns.
     //  */
     changeTurn() {
-        
-        console.log(this.currentMoves);
-
         this.pieceLocked = false;
         this.currentMoves.moves.clear();
 
@@ -292,7 +288,6 @@ class ChessBoard {
                 // if cell contains a piece from the team playing now
                 this._currentMoves = possibleCell.getMoves();
                 console.log("selecting");
-                console.log(this.currentMoves);
             }
             else {
                 return;
@@ -338,11 +333,6 @@ class ChessBoard {
 
         let oldPos = piece.vector;
 
-        console.log("moved piece from: ");
-        console.log(oldPos);
-        console.log("to: ");
-        console.log(v);
-
         // Update cells on canvas
         this.showMovement(ChessBoard.CELLSTATE.NORMAL);
 
@@ -381,8 +371,6 @@ class ChessBoard {
     }
 
     promote(piece, value) {
-        console.log(piece);
-        console.log(value);
         if (!(piece instanceof Pawn)) {
             throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
         }
@@ -392,7 +380,6 @@ class ChessBoard {
             throw new Error(ChessBoard.ERRORS.INVALIDCLASS);
         }
         let newPiece = new ChessBoard.PIECES[value](piece.team, piece.vector.copy(), this);
-        console.warn(this);
         this.grid[piece.vector.r][piece.vector.c] = newPiece;
         this.showCell(piece.vector);
     }
@@ -440,7 +427,6 @@ class ChessBoard {
                 //updateMoves?
                 this.pieceLocked = true;
                 console.log("click");
-                console.log(pieceAimed.vector);
             }   
         }
         else { // If piece selected
@@ -467,11 +453,11 @@ class ChessBoard {
         do {
             move = movesIte.next();
             if (move.done) {
-                console.log("mouse NOT on pos moves");
+                console.log("vector NOT on pos moves");
                 return false;
             }
             if (v.sameCoordinates(move.value)){
-                console.log("mouse on pos moves");
+                console.log("vector on pos moves");
                 return true;
             }
         } while (true)
