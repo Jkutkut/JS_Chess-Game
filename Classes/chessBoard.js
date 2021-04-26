@@ -177,7 +177,7 @@ class ChessBoard {
         } while (true)
     }
 
-//     // GETTERS AND SETTERS
+    // GETTERS AND SETTERS
 
     /**
      * Return the size of the p5.Canvas
@@ -231,11 +231,11 @@ class ChessBoard {
         return this._turn;
     }
 
-    // /**
-    //  * Changes the turn of board.
-    //  * @see this.turn for the current turn.
-    //  * @see ChessBoard.TURN for possible turns.
-    //  */
+    /**
+     * Changes the turn of board.
+     * @see this.turn for the current turn.
+     * @see ChessBoard.TURN for possible turns.
+     */
     changeTurn() {
         this.pieceLocked = false;
         this.currentMoves.moves.clear();
@@ -303,9 +303,6 @@ class ChessBoard {
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
                 this.showCell(this.mouse, ChessBoard.CELLSTATE.FOCUSED);
             }
-            else {
-
-            }
         }
     }
 
@@ -371,6 +368,11 @@ class ChessBoard {
         this.showCell(coord); // update that cell to show the pawn has been destroyed
     }
 
+    /**
+     * Promote the selected pawn to the selected piece
+     * @param {Pawn} piece pawn to promote
+     * @param {String} value selected (queen, rook...) 
+     */
     promote(piece, value) {
         if (!(piece instanceof Pawn)) {
             throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
