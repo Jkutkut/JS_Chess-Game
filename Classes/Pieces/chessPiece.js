@@ -331,7 +331,9 @@ class Pawn extends ChessPiece {
 
             pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
 
-            if (this._conditions[0](emptyCell, this) && this._conditions[1](pieceToCheck, this) && pieceToCheck._enpassant) {
+            if (this._conditions[0](emptyCell, this) &&
+                this._conditions[1](pieceToCheck, this) &&
+                pieceToCheck._enpassant == this.parent.nTurn) {
                 moves.add([dir, 1]);
             }
         }
@@ -352,10 +354,13 @@ class Pawn extends ChessPiece {
         }
         let dif = Math.abs(this._prevV.r - p.r);
         if (dif == 2) {
-            this._enpassant = true;
+            this._enpassant = this.parent.nTurn;
         }
         else {
             this._enpassant = false;
+
+            let possiblePawn
+            // if ()
         }
     }
 }

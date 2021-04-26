@@ -103,6 +103,7 @@ class ChessBoard {
         }
 
         this._turn = ChessBoard.TURN.WHITE; // Whites always start
+        this.nTurn = 0;
 
         // User control:
         this._mouse = this.createVector(-1, -1);
@@ -403,6 +404,7 @@ class ChessBoard {
         }
         else { // If piece selected
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
+                this.nTurn++;
                 this.movePiece(this.currentMoves.piece, this.mouse);
             }
             if (pieceAimed == ChessBoard.EMPTYCELL) {
