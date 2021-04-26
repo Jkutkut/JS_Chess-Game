@@ -68,6 +68,7 @@ class ChessBoard {
     constructor(canvasSize) {
         this._canvasSize = canvasSize;
         this._cellSize = canvasSize / 8;
+        this._selectionSize = this._cellSize / 4;
 
         // Create the pieces
         this._grid = new Array(8); //pieces stored on a 2D array
@@ -140,6 +141,10 @@ class ChessBoard {
 
         let possiblePiece = this.grid[pos.r][pos.c];
 
+        if (possiblePiece instanceof ChessPiece) {
+            possiblePiece.show(); // represent the piece
+        }
+
         if (aimed != ChessBoard.CELLSTATE.NORMAL) { // If focused or aimed (or attacked)
             let colorIndex = aimed;
 
@@ -149,12 +154,8 @@ class ChessBoard {
             
             push(); // hightlight the cell with the specified color
             fill(...ChessBoard.COLORS[colorIndex]);
-            rect(this.cellSize * pos.c, this.cellSize * pos.r, this.cellSize, this.cellSize);
+            circle(this.cellSize * (pos.c + 0.5), this.cellSize * (pos.r + 0.5), this._selectionSize);
             pop();
-        }
-
-        if (possiblePiece instanceof ChessPiece) {
-            possiblePiece.show(); // represent the piece
         }
     }
 
