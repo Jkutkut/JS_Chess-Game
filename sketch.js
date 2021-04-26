@@ -4,14 +4,16 @@ var cellSize;
 var chessBoard;
 var imgs = {};
 
+var value;
+
 // debug
 var mouse;
 var debugPos;
 
 // FUNCTIONS
 
-function ask(q, ...r){
-    asking = true;//to lock the drawing function
+function ask(piece, q, ...r){
+    
     value = "";//reset value
     $("#dialog").dialog();
     $("#dialog").dialog( "option", "title", q);
@@ -20,9 +22,8 @@ function ask(q, ...r){
         btns.push({
             text: r[i],
             click: function() {
-                asking = false;
                 value = r[i];
-                grid[mX][mY].setPiece(new piece(value, grid[mX][mY].piece.team));
+                chessBoard.promote(piece, value);
                 $(this).dialog("close");
             }
         });

@@ -380,6 +380,23 @@ class ChessBoard {
         this.showCell(coord); // update that cell to show the pawn has been destroyed
     }
 
+    promote(piece, value) {
+        console.log(piece);
+        console.log(value);
+        if (!(piece instanceof Pawn)) {
+            throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
+        }
+
+        let pieceClassIndex = ChessPiece.PIECENAME.indexOf(value);
+        if (pieceClassIndex == -1) {
+            throw new Error(ChessBoard.ERRORS.INVALIDCLASS);
+        }
+        let newPiece = new ChessBoard.PIECES[value](piece.team, piece.vector.copy(), this);
+        console.warn(this);
+        this.grid[piece.vector.r][piece.vector.c] = newPiece;
+        this.showCell(piece.vector);
+    }
+
 
     /**
      * Analyses the position of the mouse.

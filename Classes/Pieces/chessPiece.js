@@ -368,6 +368,10 @@ class Pawn extends ChessPiece {
                 this.parent.enPassant(this); // make the move
             }
         }
+
+        if (this.vector.r == 0 || this.vector.r == 7) { // if edge of the board, promotion
+            ask(this, "Promote pawn to?", "queen", "knight");
+        }
     }
 }
 
