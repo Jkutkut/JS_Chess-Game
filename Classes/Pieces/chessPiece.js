@@ -271,7 +271,7 @@ class Pawn extends ChessPiece {
         let dir, pieceV, pieceToCheck, conditionIndex = 0;
         let moves = new Set();
         
-        for (dir of this.moveDirections) {
+        for (dir of this.moveDirections) { // normal move foward and diagonal attacks
             pieceV = new ChessVector(
                 this.vector.r + dir.r,
                 this.vector.c + dir.c,
@@ -292,7 +292,7 @@ class Pawn extends ChessPiece {
         // double distance on first move
         if (this.team == ChessPiece.TEAM.WHITE && this.vector.r == 6 ||
             this.team == ChessPiece.TEAM.BLACK && this.vector.r == 1)
-        {
+        { // if pawn on starting position
             pieceV = new ChessVector(
                 this.vector.r + 2 * this.moveDirections[0].r,
                 this.vector.c,
@@ -301,14 +301,14 @@ class Pawn extends ChessPiece {
 
             pieceToCheck = this._board.grid[pieceV.r][pieceV.c];
 
-            if (this._conditions[0](pieceToCheck, this)) {
+            if (this._conditions[0](pieceToCheck, this)) { // if final cell empty
                 moves.add([{r: 2 * this.moveDirections[0].r, c: 0}, 1]);
             }
         }
 
         // En passant
         let emptyCell;
-        for (let i = 1; i <= 2; i++) {
+        for (let i = 1; i <= 2; i++) { // for each diagonal
             dir = this.moveDirections[i];
 
             pieceV = new ChessVector(
@@ -334,7 +334,7 @@ class Pawn extends ChessPiece {
             if (this._conditions[0](emptyCell, this) &&
                 this._conditions[1](pieceToCheck, this) &&
                 pieceToCheck._enpassant == this.parent.nTurn) {
-                moves.add([dir, 1]);
+                moves.add([dir, 1]); // if diagonal empty, piece on the side is the pawn with valid _enpassant value
             }
         }
 
