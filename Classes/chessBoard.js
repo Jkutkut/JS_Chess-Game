@@ -344,7 +344,6 @@ class ChessBoard {
 
         this.showCell(oldPos, ChessBoard.CELLSTATE.NORMAL);
         this.showCell(v, ChessBoard.CELLSTATE.NORMAL);
-        this.changeTurn();
     }
 
     /**
@@ -434,6 +433,7 @@ class ChessBoard {
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
                 this.nTurn++;
                 this.movePiece(this.currentMoves.piece, this.mouse);
+                this.changeTurn();
             }
             else {
                 this.showMovement(); // clear the selected cells
