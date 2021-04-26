@@ -346,29 +346,26 @@ class Pawn extends ChessPiece {
     }
 
     set vector(p) {
-        this._prevV = this.vector;
-        super.vector = p;
+        this._prevV = this.vector; // position of the pawn before movement
+        super.vector = p; // execute the default method (checks valid input)
 
-        if (this._prevV == undefined || !(p instanceof ChessVector) || !p.checkVector()) {
-            return;
+        if (this._prevV == undefined) {
+            return; // if first time executing the method, stop
         }
-        let dif = Math.abs(this._prevV.r - p.r);
+
+        let dif = Math.abs(this._prevV.r - p.r); // amount of rows travelled on a single move (1 or 2)
         
         this._enpassant = false;
-        console.warn(this._prevV);
-        console.warn(p);
+
         if (dif == 2) { // if 2 squares made on a single move
             this._enpassant = this.parent.nTurn; // The En Passant move can happend on the next turn
         }
         
-        else if (this._prevV.c != p.c) { // if attacked
+        else if (this._prevV.c != p.c) { // if attack made
             let coord = new ChessVector(this.vector.r - this.moveDirections[0].r, this.vector.c);
-            let c = this.parent.grid[coord.r][coord.c];
-            console.log("Attack");
-            console.log(c);
-            if (c instanceof Pawn && c._enpassant == this.parent.nTurn - 1) {
-                console.warn("En Passant");
-                this.parent.enPassant(this);
+            let c = this.parent.grid[coord.r][coord.c]; // possible pawn to remove
+            if (c instanceof Pawn && c._enpassant == this.parent.nTurn - 1) { // if enPassant conditions true
+                this.parent.enPassant(this); // make the move
             }
         }
     }

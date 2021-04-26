@@ -356,23 +356,28 @@ class ChessBoard {
         this.changeTurn();
     }
 
+    /**
+     * Analyces the board to ensure the En Passant move can be executed and removes the piece.
+     * @param {ChessPiece} piece Piece making the move.
+     * @throws Error if invalid input or conditions not okay to execute the move.
+     */
     enPassant(piece) {
         if (!(piece instanceof Pawn)) {
             throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
         }
-        let coord = this.createVector(piece.vector.r - piece.moveDirections[0].r, piece.vector.c);
-        let p = this.grid[coord.r][coord.c];
-
         if (!(piece instanceof Pawn)) {
             throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
         }
+
+        let coord = this.createVector(piece.vector.r - piece.moveDirections[0].r, piece.vector.c);
+        let p = this.grid[coord.r][coord.c]; // Possible pawn to remove
+
         if (piece.team == p.team) {
             throw new Error(ChessBoard.ERRORS.INVALIDTEAM);
         }
 
-        this.grid[coord.r][coord.c] = ChessBoard.EMPTYCELL;
-        this.showCell(coord);
-        
+        this.grid[coord.r][coord.c] = ChessBoard.EMPTYCELL; // Remove the pawn
+        this.showCell(coord); // update that cell to show the pawn has been destroyed
     }
 
 
