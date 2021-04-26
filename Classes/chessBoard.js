@@ -454,10 +454,8 @@ class ChessBoard {
     
 
     checkKingCheck(pieceMoved) {
-        // King to check: the one playing now
-        // Piece to check: the last one 
-        let king = this.kings[this.turn];
-        let moves = pieceMoved.getMoves();
+        let king = this.kings[this.turn]; // King to check: the one playing now
+        let moves = pieceMoved.getMoves(); // Piece to check: the last one moved
         if (ChessBoard.vectorInPossibleMoves(king.vector, moves)) {
             console.warn("check");
         }
