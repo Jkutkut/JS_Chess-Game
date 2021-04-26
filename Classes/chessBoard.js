@@ -356,6 +356,25 @@ class ChessBoard {
         this.changeTurn();
     }
 
+    enPassant(piece) {
+        if (!(piece instanceof Pawn)) {
+            throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
+        }
+        let coord = this.createVector(piece.vector.r - piece.moveDirections[0].r, piece.vector.c);
+        let p = this.grid[coord.r][coord.c];
+
+        if (!(piece instanceof Pawn)) {
+            throw new Error(ChessBoard.ERRORS.INVALIDPIECE);
+        }
+        if (piece.team == p.team) {
+            throw new Error(ChessBoard.ERRORS.INVALIDTEAM);
+        }
+
+        this.grid[coord.r][coord.c] = ChessBoard.EMPTYCELL;
+        this.showCell(coord);
+        
+    }
+
 
     /**
      * Analyses the position of the mouse.

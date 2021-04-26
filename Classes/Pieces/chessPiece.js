@@ -353,14 +353,23 @@ class Pawn extends ChessPiece {
             return;
         }
         let dif = Math.abs(this._prevV.r - p.r);
-        if (dif == 2) {
-            this._enpassant = this.parent.nTurn;
+        
+        this._enpassant = false;
+        console.warn(this._prevV);
+        console.warn(p);
+        if (dif == 2) { // if 2 squares made on a single move
+            this._enpassant = this.parent.nTurn; // The En Passant move can happend on the next turn
         }
-        else {
-            this._enpassant = false;
-
-            let possiblePawn
-            // if ()
+        
+        else if (this._prevV.c != p.c) { // if attacked
+            let coord = new ChessVector(this.vector.r - this.moveDirections[0].r, this.vector.c);
+            let c = this.parent.grid[coord.r][coord.c];
+            console.log("Attack");
+            console.log(c);
+            if (c instanceof Pawn && c._enpassant == this.parent.nTurn - 1) {
+                console.warn("En Passant");
+                this.parent.enPassant(this);
+            }
         }
     }
 }
