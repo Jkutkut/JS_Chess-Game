@@ -448,7 +448,8 @@ class ChessBoard {
                 this.nTurn++;
                 this.movePiece(this.currentMoves.piece, this.mouse);
             }
-            if (pieceAimed == ChessBoard.EMPTYCELL) {
+            else {
+                this.showMovement(); // clear the selected cells
                 this.pieceLocked = false;
                 this.currentMoves.moves.clear();
                 console.info("focus lost");
