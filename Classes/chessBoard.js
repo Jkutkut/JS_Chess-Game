@@ -102,6 +102,7 @@ class ChessBoard {
                 this._teamPieces[j].add(piece);
             }
         }
+        this.kings = [this.grid[0][4], this.grid[7][4]]; // Kings
 
         this._turn = ChessBoard.TURN.WHITE; // Whites always start
         this.nTurn = 0;
@@ -276,7 +277,7 @@ class ChessBoard {
 
         if (!this.pieceLocked) { // if piece not locked => selecting piece
             if (!this.mouse.checkVector()) { // if not valid index
-                // this.showMovement(ChessBoard.CELLSTATE.NORMAL);
+                this.showMovement(ChessBoard.CELLSTATE.NORMAL);
                 this._currentMoves.moves.clear(); // if not locked and on invalid position, reset the valid moves
                 return;
             }
@@ -431,9 +432,11 @@ class ChessBoard {
         }
         else { // If piece selected
             if (ChessBoard.vectorInPossibleMoves(this.mouse, this.currentMoves)) {
+                let pieceMoved = this.currentMoves.piece;
                 this.nTurn++;
                 this.movePiece(this.currentMoves.piece, this.mouse);
                 this.changeTurn();
+                this.checkKingCheck(pieceMoved);
             }
             else {
                 this.showMovement(); // clear the selected cells
@@ -447,6 +450,16 @@ class ChessBoard {
     }
 
     
+
+    checkKingCheck(pieceMoved) {
+        // King to check: the one playing now
+        // Piece to check: the last one 
+        let king = this.kings[this.turn];
+        let moves = pieceMoved.getMoves();
+        if (ChessBoard.vectorInPossibleMoves(king.vector, moves)) {
+            console.warn("check");
+        }
+    }
     
     // TOOLS
     static vectorInPossibleMoves(v, moves) {
@@ -454,11 +467,11 @@ class ChessBoard {
         do {
             move = movesIte.next();
             if (move.done) {
-                console.log("vector NOT on pos moves");
+                // console.log("vector NOT on pos moves");
                 return false;
             }
             if (v.sameCoordinates(move.value)){
-                console.log("vector on pos moves");
+                // console.log("vector on pos moves");
                 return true;
             }
         } while (true)
