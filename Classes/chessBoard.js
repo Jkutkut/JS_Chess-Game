@@ -462,6 +462,12 @@ class ChessBoard {
     }
     
     // TOOLS
+    /**
+     * Checks if the selected vector is on the moves inputed.
+     * @param {ChessVector} v vector to check.
+     * @param {Obj} moves object with the moves of a piece.
+     * @returns Whenever the selected vector is on one of the possible moves.
+     */
     static vectorInPossibleMoves(v, moves) {
         let move, movesIte = this.movesIterator(moves);
         do {
